@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  addDate: 2014-10-08 15:23:42
+  bounty: 1
+  user_id: 
+
+two:
+  title: MyString
+  description: MyText
+  addDate: 2014-10-08 15:23:42
+  bounty: 1
+  user_id: 

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @ticket.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @ticket.description %>
+</p>
+
+<p>
+  <strong>Adddate:</strong>
+  <%= @ticket.addDate %>
+</p>
+
+<p>
+  <strong>Bounty:</strong>
+  <%= @ticket.bounty %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @ticket.user %>
+</p>
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>

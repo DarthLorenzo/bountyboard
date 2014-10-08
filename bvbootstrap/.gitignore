@@ -1,9 +1,0 @@
-.DS_Store
-
-_gh_pages/*
-*.map
-bootstrap
-node_modules/*
-*.pyc
-.idea/*
-.idea
