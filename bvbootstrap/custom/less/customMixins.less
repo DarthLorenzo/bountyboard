@@ -1,0 +1,126 @@
+.btn-colors(lightback, @localBtnBackground, @localBtnBackgroundHighlight, @localBtnBorder, @localBtnText) {
+  text-shadow: 0 1px 0 fadeout(@white, 60%);
+}
+.btn-colors(darkback, @localBtnBackground, @localBtnBackgroundHighlight, @localBtnBorder, @localBtnText) {
+  text-shadow: 0 -1px 0 fadeout(@black, 60%);
+}
+.btn-colors(@_, @localBtnBackground, @localBtnBackgroundHighlight, @localBtnBorder, @localBtnText) {
+  color: @localBtnText;
+  .button-background(@localBtnBackgroundHighlight,@localBtnBackground);
+  border-color: @localBtnBorder;
+  border-bottom-color: darken(@localBtnBorder, 10%);
+  .caret {
+    border-top-color: @localBtnText;
+  }
+}
+.btn-colors-hover(@localBtnBackground, @localBtnBackgroundHighlight, @localBtnBorder, @localBtnText) {
+  color: darken(@localBtnText, 10%);
+  background-color: @localBtnBackground;
+}
+
+.button-background(@startColor, @endColor) {
+  // gradientBar will set the background to a pleasing blend of these, to support IE<=9
+  .gradient-bar(@startColor, @endColor);
+  background-color: @endColor; /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  .reset-filter();
+
+  // in these cases the gradient won't cover the background, so we override
+  &:hover, &:active, &.active, &.disabled, &[disabled] {
+    background-color: @endColor;
+    background-color: darken(@endColor, 5%);
+  }
+
+  // IE 7 + 8 can't handle box-shadow to show active, so we darken a bit ourselves
+  &:active,
+  &.active {
+    background-color: darken(@endColor, 10%) e("\9");
+  }
+}
+
+// Gradient Bar Colors for buttons and alerts
+.gradient-bar(@primary-color, @secondary-color) {
+  #gradient > .vertical(@primary-color, @secondary-color);
+  border-color: @secondary-color @secondary-color darken(@secondary-color, 15%);
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
+}
+
+.button-all(@btn-primary-border, @btn-primary-bg, @btn-primary-highlight-bg) {
+  .button-background(@btn-primary-bg, @btn-primary-border);
+  border: 1px solid @btn-primary-border;
+  .button-highlight(@btn-primary-highlight-bg);
+}
+
+.button-highlight(@highlight) {
+  .box-shadow("0 1px 0 0 @{highlight}");
+}
+
+.btn-gradient(@bg-color, @darker-color) {
+  background-color: @bg-color;
+  background-image: -moz-linear-gradient(top, @darker-color, @bg-color);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@darker-color), to(@bg-color));
+  background-image: -webkit-linear-gradient(top, @darker-color, @bg-color);
+  background-image: -o-linear-gradient(top, @darker-color, @bg-color);
+  background-image: linear-gradient(to bottom, @darker-color, @bg-color);
+  background-repeat: repeat-x;
+  border-color: #51a351;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@darker-color, endColorstr=@bg-color, GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-gradient-hover (@highlight) {
+  background-color: @highlight;
+}
+
+
+// Border Radius
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+.border-top-right-radius(@radius) {
+  -webkit-border-top-right-radius: @radius;
+  -moz-border-radius-topright: @radius;
+  border-top-right-radius: @radius;
+}
+.border-bottom-right-radius(@radius) {
+  -webkit-border-bottom-right-radius: @radius;
+  -moz-border-radius-bottomright: @radius;
+  border-bottom-right-radius: @radius;
+}
+
+.ie7-restore-left-whitespace() {
+  *margin-left: .3em;
+
+  &:first-child {
+    *margin-left: 0;
+  }
+}
+
+.ie7-restore-right-whitespace() {
+  *margin-right: .3em;
+}
+
+// Visually hidden (with focusable extension)
+// -------------------------
+// Source: https://github.com/h5bp/html5-boilerplate/commit/7588f53
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}

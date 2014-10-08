@@ -1,0 +1,105 @@
+//Button colors and hover effects
+.btn {
+  .btn-colors(lightback, @btn-default-bg, @btn-default-highlight-bg, @btn-default-border, @btn-default-color);
+  &:hover, &:active, &.active, &:focus {
+    text-decoration: none;
+    background-position: 0 -15px;
+    .transition(all .1s linear);
+    .btn-colors-hover(@btn-default-bg, @btn-default-highlight-bg, @btn-default-border, @btn-default-color);
+  }
+}
+
+.btn-default {
+  .btn-colors(lightback, @btn-default-bg, @btn-default-highlight-bg, @btn-default-border, @btn-default-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-default-bg, @btn-default-highlight-bg, @btn-default-border, @btn-default-color);
+  }
+}
+
+.btn-primary {
+  .btn-colors(darkback, @btn-primary-bg, @btn-primary-highlight-bg, @btn-primary-border, @btn-primary-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-primary-bg, @btn-primary-highlight-bg, @btn-primary-border, @btn-primary-color);
+  }
+}
+
+.btn-warning {
+  .btn-colors(darkback, @btn-warning-highlight-bg, @btn-warning-bg, @btn-warning-border, @btn-warning-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-warning-highlight-bg, @btn-warning-bg, @btn-warning-border, @btn-warning-color);
+    .btn-gradient-hover(@btn-warning-bg);
+
+  }
+}
+
+.btn-danger {
+  .btn-colors(darkback, @btn-danger-highlight-bg, @btn-danger-bg, @btn-danger-border, @btn-danger-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-danger-highlight-bg, @btn-danger-bg, @btn-danger-border, @btn-danger-color);
+    .btn-gradient-hover(@btn-danger-bg);
+
+  }
+}
+
+.btn-success {
+  .btn-colors(darkback, @btn-success-bg, @btn-success-highlight-bg, @btn-success-border, @btn-success-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-success-bg, @btn-success-highlight-bg, @btn-success-border, @btn-success-color);
+    .btn-gradient-hover(@btn-success-highlight-bg);
+  }
+}
+
+.btn-info {
+  .btn-colors(darkback, @btn-info-bg, @btn-info-highlight-bg, @btn-info-border, @btn-info-color);
+  &:hover, &:active, &.active, &:focus {
+    .btn-colors-hover(@btn-info-bg, @btn-info-highlight-bg, @btn-info-border, @btn-info-color);
+    .btn-gradient-hover(@btn-info-highlight-bg);
+
+  }
+}
+
+// Warnings are orange
+.btn-warning {
+  .btn-gradient(@btn-warning-bg, @btn-warning-highlight-bg);
+}
+// Danger and error appear as red
+.btn-danger {
+  .btn-gradient(@btn-danger-bg, @btn-danger-highlight-bg);
+}
+// Success appears as green
+.btn-success {
+  .btn-gradient(@btn-success-highlight-bg, @btn-success-bg);
+}
+// Info appears as a neutral blue
+.btn-info {
+  .btn-gradient(@btn-info-highlight-bg, @btn-info-bg);
+}
+
+// Button Sizes
+// --------------------------------------------------
+.btn {
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius);
+}
+.btn-lg {
+  .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius);
+}
+.btn-sm {
+  .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius);
+}
+.btn-xs {
+  .button-size(@padding-xs-vertical; @padding-xs-horizontal; @font-size-small; @line-height-small; @btn-border-radius);
+}
+//
+//background-color: #51a351;
+//*background-color: #51a351;
+//background-image: -moz-linear-gradient(top, #62C462, #51a351);
+//background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62C462), to(#51a351));
+//background-image: -webkit-linear-gradient(top, #62C462, #51a351);
+//background-image: -o-linear-gradient(top, #62C462, #51a351);
+//background-image: linear-gradient(to bottom, #62C462, #51a351);
+//background-repeat: repeat-x;
+//border-color: #51a351;
+//border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+//filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62C462', endColorstr='#51a351', GradientType=0);
+//filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+//}

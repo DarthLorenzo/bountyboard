@@ -1,0 +1,40 @@
+
+/*  BV Logo
+    Icon font designed for Bazaarvoice.
+    -------------------------------------------------
+    Found at https://github.com/bazaarvoice/glyphs
+    Inspired by Font Awesome (http://fortawesome.github.com/Font-Awesome/)
+
+    Contact
+    -------------------------------------------------
+    Email: chris.garcia@bazaarvoice.com
+
+*/
+
+
+.brand-bv {
+  font-size: 18px;
+  &:before {
+    display: block;
+    color: @bvGreen;
+    position: absolute;
+    font-family: "bvglyphsMedium";
+    content: "b";
+  }
+  &:after {
+    display: block;
+    color: @bvNavy;
+    font-family: "bvglyphsMedium";
+    content: "v";
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.navbar-inverse, .btn-inverse {
+  .brand-bv:after {
+    color: @white;
+  }
+}
+

@@ -1,0 +1,36 @@
+.ratings-stars-visual {
+  position: relative;
+  display: inline-block;
+  &.warning {
+    color: #c09853;
+  }
+  &.important {
+    color: #b94a48;
+  }
+  &.success {
+    color: #468847;
+  }
+  &.info {
+    color: #3a87ad;
+  }
+  &.dark {
+    color: @black;
+  }
+  &.muted {
+    .ratings-stars-unfilled {
+      color: transparent;
+    }
+  }
+}
+
+.ratings-stars-filled {
+  z-index: 1;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ratings-stars-unfilled {
+  color: lighten(@gray-light, 30%);
+  white-space: nowrap;
+}
