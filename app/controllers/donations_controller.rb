@@ -1,5 +1,6 @@
 class DonationsController < ApplicationController
   before_action :set_donation, only: [:show, :edit, :update, :destroy]
+  skip_before_filter  :verify_authenticity_token
 
   # GET /donations
   # GET /donations.json

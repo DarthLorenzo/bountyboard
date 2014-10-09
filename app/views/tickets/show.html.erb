@@ -11,13 +11,13 @@
 </p>
 
 <p>
-  <strong>Bounty:</strong>
-  <%= @ticket.bounty %>
+  <strong>User:</strong>
+  <%= @ticket.user %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @ticket.user %>
+  <strong>Bounty Total</strong>
+  <%= Donation.where(:ticket_id => @ticket.id).sum :amount %>
 </p>
 
 <%= link_to 'Edit', edit_ticket_path(@ticket) %> |

@@ -6,8 +6,8 @@
       <th>Title</th>
       <th>Description</th>
       <th>Created Date</th>
-      <th>Bounty</th>
       <th>User</th>
+      <th>Bounty Sum</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,8 +18,8 @@
         <td><%= ticket.title %></td>
         <td><%= ticket.description %></td>
         <td><%= ticket.created_at %></td>
-        <td><%= ticket.bounty %></td>
         <td><%= ticket.user.name %></td>
+        <td><%= Donation.where(:ticket_id => ticket.id).sum :amount %></td>
         <td><%= link_to 'Show', ticket %></td>
         <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
         <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>
