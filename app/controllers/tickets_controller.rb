@@ -34,6 +34,8 @@ class TicketsController < ApplicationController
   # POST /tickets
   # POST /tickets.json
   def create
+    skip_before_filter  :verify_authenticity_token
+    
     @ticket = Ticket.new(ticket_params)
 
     respond_to do |format|
