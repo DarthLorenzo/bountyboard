@@ -32,15 +32,15 @@
         <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some booty? Check the outstanding requests below!</p>
       </div>
 
-      <ul class="nav nav-tabs" role="tablist" style="margin-bottom:-1px">
+
+      <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
         <li class="active"><a href="#home" data-toggle="tab">Open Bounties</a></li>
         <li><a href="#projects" data-toggle="tab">Projects</a></li>
         <li><a href="#messages" data-toggle="tab">Messages</a></li>
       </ul>
-
       <div class="tab-content">
         <div class="tab-pane active" id="home">
-          <div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>
+          <!--<div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>div-->
           <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
             <div class="col-md-9" style="padding-left: 0px">
@@ -51,9 +51,9 @@
               <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Post a Bounty</a>
               <span>Sort by:</span>
               <select class="form-control" id="sort" onchange="sort();">
-                  <option value="descDate">Newest first</option>
-                  <option value="ascDate">Oldest first</option>
-                  <option value="descBounty">Sort by bounty</option>
+                <option value="descDate">Newest first</option>
+                <option value="ascDate">Oldest first</option>
+                <option value="descBounty">Sort by bounty</option>
               </select>
             </div>
           </div>
@@ -61,9 +61,6 @@
         <div class="tab-pane" id="projects">...</div>
         <div class="tab-pane" id="messages">...</div>
       </div>
-
-      
-
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -89,11 +86,31 @@
                               <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" +
                               json_object.title + "</a></h4></div>";
               var description = "<div id='collapse"+i+ "' class='list-group-collapse collapse'>\
-                                  <div class='list-group-item-text'> <p>" + json_object.description +
-                                  "</p><a class='btn btn-md' href=mailto:"+ json_object.owner.email +
-                                  "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a></div></div></div>"
-              //console.log(description);
+                                  <div class='list-group-item-text'> \
+                                    <p>" + json_object.description + "</p>\
+                                    <div class='row'> \
+                                      <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
+                                      <a id='addBounty"+i+"' class='btn btn-info pull-left'>Up the Bounty</a>\
+                                      <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
+                                      <div id='bountySlider"+i+"' class='form-group col-sm-6 pull-right' style='display: none'>\
+                                          <label for='bountyOffered"+i+"'>Bounty Offered: <span id='bountyValue"+i+"'></span></label>\
+                                          <input id='bountyOffered"+i+"' type='range' min=0 step=25 >\
+                                      </div>\
+                                    </div>\
+                                  </div></div></div>"
               $(badge+header+description).appendTo("#accordion");
+              $("#bountyOffered"+i).on("change mousemove", function () {
+                $("#bountyValue"+i).html($("#bountyOffered"+i).val())
+              });
+              $("#bountySubmit"+i).click(function () {
+
+                $("#bountySubmit"+i).hide()
+                $("#bountySlider"+i).hide()
+              });
+              $("#addBounty"+i).click(function () {
+                $("#bountySubmit"+i).show()
+                $("#bountySlider"+i).show()
+              });
               if (i === 9 || i >= data.length) {
                 return false;
               }
@@ -101,12 +118,12 @@
           });
         }
 
-        function sort() {
-          dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
-          console.log(dbstore);
-          $(".list-group").empty();
-          getTickets(dbstore);
-        }
+      function sort() {
+        dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
+        console.log(dbstore);
+        $(".list-group").empty();
+        getTickets(dbstore);
+      }
     </script>
 
   </body>
