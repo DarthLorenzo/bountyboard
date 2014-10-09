@@ -59,10 +59,6 @@
 
     </div>
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -74,7 +70,7 @@
 
     <script>
       var dbstore = "http://localhost:3000/tickets.json";
-      return getTicket(dbstore);
+      getTickets(dbstore);
       function getTickets(dbstore) {
         $.getJSON(dbstore)
           .done(function(data) {
@@ -83,11 +79,11 @@
               var badge = "<div class='list-group-item'>\
                             <span class='badge'>"+json_object.bounty+"</span>";
               var header = "<div class='list-group-item-heading'>\
-                              <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" + 
+                              <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" +
                               json_object.title + "</a></h4></div>";
               var description = "<div id='collapse"+i+ "' class='list-group-collapse collapse'>\
                                   <div class='list-group-item-text'>" + json_object.description + "</div></div></div>"
-              console.log(description);
+              //console.log(description);
               $(badge+header+description).appendTo("#accordion");
               if (i === 9 || i >= data.length) {
                 return false;
@@ -102,6 +98,6 @@
           getTickets(dbstore);
         }
     </script>
-    
+
   </body>
 </html>
