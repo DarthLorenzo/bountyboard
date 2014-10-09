@@ -36,7 +36,23 @@
         <h1>Open Bounties <button type="button" class="btn btn-lg btn-primary pull-right" href="search.html">Post a Bounty</button></h1>
       </div>
 
-      <div class="list-group" id="accordion"></div>
+      <div class="row">
+        <p>
+          <div class="input-group col-sm-3 col-sm-offset-9">
+            <select class="form-control" name="sort" onchange="sort();">
+              <option value="ascDate">Newest first</option>
+              <option value="descDate">Oldest first</option>
+              <option value="ascBounty">Sort by bounty</option>
+            </select>
+          </div>
+        </p>
+      </div>
+
+      <div class="row">
+        <p>
+          <div class="list-group" id="accordion"></div>
+        </p>
+     </div>
 
     </div>
 
