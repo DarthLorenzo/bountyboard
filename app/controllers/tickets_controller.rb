@@ -4,7 +4,17 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+    if params[:sort] == 'ascDate'
+      @tickets = Ticket.all.order(created_at: :asc)
+    elsif params[:sort] == 'descDate'
+      @tickets = Ticket.all.order(created_at: :desc)
+    elsif params[:sort] == 'ascBounty'
+        @tickets = Ticket.all.order(bounty: :asc)
+    elsif params[:sort] == 'descBounty'
+        @tickets = Ticket.all.order(bounty: :desc)
+    else
+      @tickets = Ticket.all
+    end
   end
 
   # GET /tickets/1
