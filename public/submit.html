@@ -64,11 +64,13 @@
               <label for="bountyOffered">Bounty Offered: <span id="bountyValue">0</span></label>
               <input type="range" min=0 step=10 value=0 id="bountyOffered">
             </div>
-            <div class="form-group col-sm-6 pull-right">
-              <label></label>
-              <button type="button" class="btn btn-primary btn-block" role="button" id="submit">Submit</button>
+            <div class="form-group col-sm-6">
+              <label> Project</label>
+              <select id="projectList" class="form-control"></select>
             </div>
           </div>
+          <div>
+            <button type="button" class="btn btn-primary" role="button" id="submit">Submit</button>
         </form>
       </div>
 
@@ -83,6 +85,16 @@
       $("#bountyOffered").on("change mousemove", function () {
         $("#bountyValue").html($("#bountyOffered").val())
       });
+
+      (function getProjectOpetions() {
+        $.getJSON("http://localhost:3000/projects.json")
+          .done(function(data){
+            $.each(data, function( i, json_object ){
+              var projectOption = "<option>" + json_object.name + "</option>";
+              $(projectOption).appendTo("#projectList")
+            })
+          })
+      })
 
       (function getMaxBounty() {
         $.getJSON("http://localhost:3000/users.json")

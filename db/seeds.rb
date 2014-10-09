@@ -41,3 +41,13 @@ Donation.create(
 	user_id: 1,
 	ticket_id: 1,
 	amount: 900)
+Project.create(
+	name: "Miscellaneous",
+    link: "n/a",
+    language: "misc",
+    contact: "Bounty Reporter")
+Project.create(
+	name: "Flynn",
+    link: "https://github.com/bazaarvoice/flynn",
+    language: "Scala",
+    contact: "Jona Fenocchi")
