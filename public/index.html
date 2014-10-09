@@ -32,27 +32,30 @@
         <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to earn some YouEarnedIt swag from BV employees? Check the outstanding requests below!</p>
       </div>
 
-      <div class="page-header">
-        <h1>Open Bounties <button type="button" class="btn btn-lg btn-primary pull-right" href="search.html">Post a Bounty</button></h1>
-      </div>
+
+      <ul class="nav nav-tabs" style="margin-bottom: 18px" role="tablist">
+        <li class="active"><a href="#">Open Bounties</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Messages</a></li>
+      </ul>
 
       <div class="row">
-        <p>
-          <div class="input-group col-sm-3 col-sm-offset-9">
-            <select class="form-control" name="sort" onchange="sort();">
-              <option value="ascDate">Newest first</option>
-              <option value="descDate">Oldest first</option>
-              <option value="ascBounty">Sort by bounty</option>
-            </select>
+
+          <div class="col-md-9">
+              <div class="list-group" id="accordion"></div>
           </div>
-        </p>
-      </div>
 
-      <div class="row">
-        <p>
-          <div class="list-group" id="accordion"></div>
-        </p>
-     </div>
+          <div class="well input-group col-sm-3" style="padding: 19px">
+              <button type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="search.html">Post a Bounty</button>
+              <span>Sort by:</span>
+              <select class="form-control" name="sort" onchange="sort();">
+                  <option value="ascDate">Newest first</option>
+                  <option value="descDate">Oldest first</option>
+                  <option value="ascBounty">Sort by bounty</option>
+              </select>
+          </div>
+
+      </div>
 
     </div>
 
