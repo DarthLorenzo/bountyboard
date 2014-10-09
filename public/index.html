@@ -33,30 +33,36 @@
       </div>
 
       <ul class="nav nav-tabs" role="tablist" style="margin-bottom:-1px">
-        <li class="active"><a href="#">Open Bounties</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Messages</a></li>
+        <li class="active"><a href="#home" data-toggle="tab">Open Bounties</a></li>
+        <li><a href="#projects" data-toggle="tab">Projects</a></li>
+        <li><a href="#messages" data-toggle="tab">Messages</a></li>
       </ul>
 
-      <div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">
+          <div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>
+          <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
-      <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+            <div class="col-md-9" style="padding-left: 0px">
+                <div class="list-group" id="accordion"></div>
+            </div>
 
-        <div class="col-md-9" style="padding-left: 0px">
-            <div class="list-group" id="accordion"></div>
+            <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Post a Bounty</a>
+              <span>Sort by:</span>
+              <select class="form-control" id="sort" onchange="sort();">
+                  <option value="descDate">Newest first</option>
+                  <option value="ascDate">Oldest first</option>
+                  <option value="descBounty">Sort by bounty</option>
+              </select>
+            </div>
+          </div>
         </div>
-
-        <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
-            <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Post a Bounty</a>
-            <span>Sort by:</span>
-            <select class="form-control" id="sort" onchange="sort();">
-                <option value="descDate">Newest first</option>
-                <option value="ascDate">Oldest first</option>
-                <option value="descBounty">Sort by bounty</option>
-            </select>
-        </div>
-
+        <div class="tab-pane" id="projects">...</div>
+        <div class="tab-pane" id="messages">...</div>
       </div>
+
+      
 
     </div>
 
