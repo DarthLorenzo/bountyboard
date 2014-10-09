@@ -90,7 +90,7 @@
         $.getJSON("http://localhost:3000/projects.json")
           .done(function(data){
             $.each(data, function( i, json_object ){
-              var projectOption = "<option>" + json_object.name + "</option>";
+              var projectOption = "<option value=" + json_object.id + ">" + json_object.name + "</option>";
               $(projectOption).appendTo("#projectList")
             })
           })
@@ -101,7 +101,7 @@
           .done(function(data){
             $("#bountyOffered").attr("max", data[0].budget);
           })
-      })();
+      });
 
       $("#submit").click(function() {
         console.log("button pressed");
@@ -109,7 +109,8 @@
         $.post("http://localhost:3000/tickets", {ticket: {
           title: $("#bountyOverview").val(),
           description: $("#bountyDescription").val(),
-          user_id: 1
+          user_id: 1,
+          project_id: $("#projectList").val()
         }}, function( data ) {
           $.post("http://localhost:3000/donations",
             {
@@ -120,6 +121,8 @@
               }
             }
           )
+
+          window.location.href = "http://localhost:3000/index.html"
         }, "json");
       });
     </script>
