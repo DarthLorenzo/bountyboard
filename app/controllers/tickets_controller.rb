@@ -1,5 +1,6 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
+  skip_before_filter  :verify_authenticity_token
 
   # GET /tickets
   # GET /tickets.json
@@ -34,7 +35,6 @@ class TicketsController < ApplicationController
   # POST /tickets
   # POST /tickets.json
   def create
-    skip_before_filter  :verify_authenticity_token
     
     @ticket = Ticket.new(ticket_params)
 
@@ -81,6 +81,6 @@ class TicketsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_params
-      params.require(:ticket).permit(:title, :description, :addDate, :bounty, :user_id)
+      params.require(:ticket).permit(:title, :description, :bounty, :user_id)
     end
 end

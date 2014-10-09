@@ -53,11 +53,11 @@
           <h2 class="form-signin-heading">Submit a new bounty</h2>
           <div class="form-group">
             <label for="bountyOverview">Overview</label>
-            <input type="text" class="form-control" placeholder="Enter bounty overview"/>
+            <input id="bountyOverview" type="text" class="form-control" placeholder="Enter bounty overview"/>
           </div>
           <div class="form-group">
             <label for="bountyDescription">Description</label>
-            <textarea class="form-control" rows="6" placeholder="Enter detailed description"></textarea>
+            <textarea id="bountyDescription" class="form-control" rows="6" placeholder="Enter detailed description"></textarea>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 pull-left">
@@ -93,15 +93,13 @@
 
       $("#submit").click(function() {
         console.log("button pressed");
-        console.log($("#bountyOverview"));
-        $.post("http://localhost:3000/tickets", {
-          title: $("#bountyOverview"),
-          description: $("#bountyDescription"),
-          user: 1,
-          adddate: Date(),
-          bounty: $("#bountyOffered")
-        });
-        console.log("done")
+        console.log($("#bountyOverview").val());
+        $.post("http://localhost:3000/tickets", {ticket: {
+          title: $("#bountyOverview").val(),
+          description: $("#bountyDescription").val(),
+          user_id: 1,
+          bounty: $("#bountyOffered").val()
+        }});
       });
     </script>
 
