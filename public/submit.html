@@ -14,6 +14,8 @@
     <!-- Bootstrap theme -->
     <link href="dist/css/bvbootstrap-theme.min.css" rel="stylesheet">
 
+    <link href="dist/css/slider.css" rel="stylesheet">
+
     <link href="bower_components/bootstrapvalidator/dist/css/bootstrapValidator.min.css">
 
 
@@ -99,7 +101,7 @@
             var badge = "<div class='list-group-item'>\
                           <span class='badge'>"+json_object.bounty+"</span>";
             var header = "<div class='list-group-item-heading'>\
-                            <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" + 
+                            <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" +
                             json_object.title + "</a></h4></div>";
             var description = "<div id='collapse"+i+ "' class='list-group-collapse collapse'>\
                                 <div class='list-group-item-text'>" + json_object.description + "</div></div></div>"
@@ -122,11 +124,13 @@
         });
       }
     </script>
-    
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="dist/js/bvbootstrap.min.js"></script>
 
+    <script src="dist/js/bootstrap-slider.js"></script>
+
     <script src="defaultBootstrap/docs/assets/js/docs.min.js"></script>
-    
+
   </body>
 </html>
