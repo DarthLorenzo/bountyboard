@@ -32,28 +32,27 @@
         <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to earn some YouEarnedIt swag from BV employees? Check the outstanding requests below!</p>
       </div>
 
-
       <ul class="nav nav-tabs" style="margin-bottom: 18px" role="tablist">
         <li class="active"><a href="#">Open Bounties</a></li>
         <li><a href="#">Projects</a></li>
         <li><a href="#">Messages</a></li>
       </ul>
 
-      <div class="row">
+      <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px">
 
-          <div class="col-md-9">
-              <div class="list-group" id="accordion"></div>
-          </div>
+        <div class="col-md-9" style="padding-left: 0px">
+            <div class="list-group" id="accordion"></div>
+        </div>
 
-          <div class="well input-group col-sm-3" style="padding: 19px">
-              <button type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="search.html">Post a Bounty</button>
-              <span>Sort by:</span>
-              <select class="form-control" name="sort" onchange="sort();">
-                  <option value="ascDate">Newest first</option>
-                  <option value="descDate">Oldest first</option>
-                  <option value="ascBounty">Sort by bounty</option>
-              </select>
-          </div>
+        <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+            <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Post a Bounty</a>
+            <span>Sort by:</span>
+            <select class="form-control" id="sort" onchange="sort();">
+                <option value="descDate">Newest first</option>
+                <option value="ascDate">Oldest first</option>
+                <option value="descBounty">Sort by bounty</option>
+            </select>
+        </div>
 
       </div>
 
@@ -69,7 +68,7 @@
     <script src="defaultBootstrap/docs/assets/js/docs.min.js"></script>
 
     <script>
-      var dbstore = "http://localhost:3000/tickets.json";
+      var dbstore = "http://localhost:3000/tickets.json?sort=descDate";
       getTickets(dbstore);
       function getTickets(dbstore) {
         $.getJSON(dbstore)
@@ -82,7 +81,9 @@
                               <h4><a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>" +
                               json_object.title + "</a></h4></div>";
               var description = "<div id='collapse"+i+ "' class='list-group-collapse collapse'>\
-                                  <div class='list-group-item-text'>" + json_object.description + "</div></div></div>"
+                                  <div class='list-group-item-text'> <p>" + json_object.description +
+                                  "</p><a class='btn btn-md' href=mailto:"+ json_object.owner.email +
+                                  "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a></div></div></div>"
               //console.log(description);
               $(badge+header+description).appendTo("#accordion");
               if (i === 9 || i >= data.length) {
@@ -93,7 +94,8 @@
         }
 
         function sort() {
-          dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").value;
+          dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
+          console.log(dbstore);
           $(".list-group").empty();
           getTickets(dbstore);
         }
