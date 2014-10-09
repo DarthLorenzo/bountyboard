@@ -61,19 +61,8 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 pull-left">
-              <label for="bountyOffered">Bounty Offered</label>
-              <select class="form-control" name="bounty"/>
-                <option>100</option>
-                <option>200</option>
-                <option>300</option>
-                <option>400</option>
-                <option>500</option>
-                <option>600</option>
-                <option>700</option>
-                <option>800</option>
-                <option>900</option>
-                <option>1000</option>
-              </select>
+              <label for="bountyOffered">Bounty Offered: <span id="bountyValue">0</span></label>
+              <input type="range" min=0 max=200 step=10 class="form-control" id="bountyOffered">
             </div>
             <div class="form-group col-sm-6 pull-right">
               <label></label>
@@ -110,6 +99,10 @@
             }
           });
         });
+
+      $("#bountyOffered").on("change mousemove", function () {
+        $("#bountyValue").html($("#bountyOffered").val())
+      });
 
       function submit() {
         console.log($("#bountyOverview"));
