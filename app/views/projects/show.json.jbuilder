@@ -1,1 +1,1 @@
-json.extract! @project, :id, :name, :link, :language, :contact, :imageURL, :created_at, :updated_at
+json.extract! @project, :id, :name, :link, :language, :contact, :imageURL, :description, :created_at, :updated_at
