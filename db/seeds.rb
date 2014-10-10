@@ -33,7 +33,7 @@ Project.create(
 	link: "https://github.com/bazaarvoice/firebird",
 	language: "Javascript",
 	contact: "Rebecca Murphy",
-	imageURL: "http://media-cache-ec0.pinimg.com/736x/98/fd/00/98fd002ce5778e7f0b87b6d2255985e7.jpg")
+	imageURL: "resources/Firebird.png")
 Project.create(
 	name: "Flynn",
 	link: "https://github.com/bazaarvoice/flynn",
