@@ -27,7 +27,7 @@ Project.create(
 	link: "none",
 	language: "unknown",
 	contact: "Claire Cahill",
-	imageURL: "resources/Miscellaneous.png")
+	imageURL: "resources/Miscellaneous.png" )
 Project.create(
 	name: "Firebird",
 	link: "https://github.com/bazaarvoice/firebird",
@@ -39,31 +39,31 @@ Project.create(
 	link: "https://github.com/bazaarvoice/flynn",
 	language: "Scala",
 	contact: "Jona Fenocchi",
-	imageURL: "resources/Flynn.png")
+	imageURL: "resources/Flynn.png" )
 Project.create(
 	name: "Rudy",
 	link: "https://github.com/bazaarvoice/rudy",
 	language: "Java",
 	contact: "Juicy J",
-	imageURL: "resources/Rudy.png")
+	imageURL: "resources/Rudy.png" )
 Project.create(
 	name: "Gumshoe",
 	link: "https://github.com/bazaarvoice/gumshoe",
 	language: "Java",
 	contact: "Sherlock Holmes",
-	imageURL: "resources/Gumshoe.png")
+	imageURL: "resources/Gumshoe.png" )
 Project.create(
 	name: "Badger",
 	link: "https://github.com/bazaarvoice/badger",
 	language: "Java",
 	contact: "Honey Badger",
-	imageURL: "resources/Badger.png")
+	imageURL: "resources/Badger.png" )
 Project.create(
 	name: "Rosetta",
 	link: "https://github.com/bazaarvoice/rosetta",
 	language: "Java",
 	contact: "Rosetta Stone",
-	imageURL: "resources/Rosetta.png")
+	imageURL: "resources/Rosetta.png" )
 
 
 Ticket.create(
