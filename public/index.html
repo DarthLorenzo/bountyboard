@@ -46,7 +46,7 @@
           <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
             <div class="col-md-9" style="padding-left: 0px">
-                <div class="list-group" id="accordion"></div>
+                <div class="panel-group" id="accordion"></div>
             </div>
 
             <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
@@ -87,48 +87,70 @@
             $.each(data, function( i, json_object ) {
               $.getJSON("http://localhost:3000/projects/"+json_object.project_id+".json")
                 .done(function(project_object) {
-                  console.log(project_object.imageURL);
-                  var badge = "<div class='list-group-item'>\
-                                <span class='badge' style='background-color:"+
-                                stringToColor(project_object.language) +
-                                  "'>"+json_object.bounty+"</span>";
-                  var header = "<div class='list-group-item-heading'><div class='row'"+
-                                  "<h4>"+
-                                    "<div class='col-md-8'>"+
-                                      "<a data-toggle='collapse' data-parent='#accordion' href='#collapse"+
-                                      i+"'>"+ json_object.title+"</a></h4></div>";
-                  var img = "<div class='col-md-3'> <a class='pull-right'>"+
-                                        "<img class='media-object' data-source='holder.js/64x64' alt='64x64' src='"+project_object.imageURL+"' style='width:64px; height:64px'/></a></div></div></div>";
-                  var description = "<div id='collapse"+i+ "' class='list-group-collapse collapse'>\
-                                      <div class='list-group-item-text'> \
-                                        <p>" + json_object.description + "</p>\
-                                        <div class='row'> \
-                                          <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
-                                          <a id='addBounty"+i+"' class='btn btn-info pull-left'>Up the Booty</a>\
-                                          <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
-                                          <div id='bountySlider"+i+"' class='form-group col-sm-6 pull-right' style='display: none'>\
-                                              <label for='bountyOffered"+i+"'>Booty Offered: <span id='bountyValue"+i+"'></span></label>\
-                                              <input id='bountyOffered"+i+"' type='range' min=0 step=25 >\
-                                          </div>\
-                                        </div>\
-                                      </div></div></div>"
+                  var badge = "<div class='panel panel-default'>";
+                  var header =  "<div class='panel-heading'>\
+                                   <h4 class='panel-title'>\
+                                     <a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>"+json_object.title+"</a>\
+                                     <div class='col-md-1 pull-right'>\
+                                       <span id='bountyLable"+i+"' class='badge pull-right'>"+json_object.bounty+"</span>\
+                                     </div>\
+                                     <div class='col-md-1 pull-right'>\
+                                       <a class='pull-right'>\
+                                         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='"+project_object.imageURL+"' style='margin-top: -7px; width:32px; height:32px'/>\
+                                       </a>\
+                                     </div>\
+                                   </h4>\
+                                 </div>";
+                  var desc = "<div id='collapse"+i+ "' class='panel-collapse collapse'>\
+                                <div class='panel-body'> \
+                                  <p>" + json_object.description + "</p>\
+                                  <div class='row' style='margin-left: 0; margin-right: 0;'> \
+                                    <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
+                                    <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Up the Booty</a>\
+                                    <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
+                                    <div id='bountySlider"+i+"' class='col-sm-6 pull-right' style='display: none'>\
+                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Booty Offered: <span id='bountyValue"+i+"'></span></label>\
+                                      <input id='bountyOffered"+i+"' type='range' min=0 step=25 >\
+                                    </div>\
+                                  </div>\
+                                </div>\
+                              </div></div>"
 
-                  $(badge+header+img+description).appendTo("#accordion");
-                  $("#bountyOffered"+i).on("change mousemove", function () {
-                    $("#bountyValue"+i).html($("#bountyOffered"+i).val())
-                  });
-                  $("#bountySubmit"+i).click(function () {
-
+                $(badge+header+desc).appendTo("#accordion");
+                $("#bountyOffered"+i).on("change mousemove", function () {
+                  $("#bountyValue"+i).html($("#bountyOffered"+i).val())
+                });
+                $("#bountySubmit"+i).click(function () {
+                  $.post("http://localhost:3000/donations",
+                      {
+                        donation: {
+                          user_id: 1,
+                          ticket_id: json_object.id,
+                          amount: $("#bountyOffered"+i).val()
+                        }
+                      }
+                    )
+                  $("#bountySubmit"+i).hide()
+                  $("#bountySlider"+i).hide()
+                  $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html())+parseInt($("#bountyOffered"+i).val()))
+                });
+                $("#addBounty"+i+".btn-info").click(function () {
+                  $("#bountySubmit"+i).show()
+                  $("#bountySlider"+i).show()
+                  $("#addBounty"+i).removeClass("btn-info")
+                  $("#addBounty"+i).addClass("btn-warning")
+                  $("#addBounty"+i).html("Cancel")
+                });
+                $("#addBounty"+i+".btn-warning").click(function () {
                     $("#bountySubmit"+i).hide()
                     $("#bountySlider"+i).hide()
-                  });
-                  $("#addBounty"+i).click(function () {
-                    $("#bountySubmit"+i).show()
-                    $("#bountySlider"+i).show()
-                  });
-                  if (i === 9 || i >= data.length) {
+                    $("#addBounty"+i).removeClass("btn-warning")
+                    $("#addBounty"+i).addClass("btn-info")
+                    $("#addBounty"+i).html("Up the Booty")
+                });
+                if (i === 9 || i >= data.length) {
                     return false;
-                  }
+                }
               });
             }); 
           });
