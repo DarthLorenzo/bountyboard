@@ -202,7 +202,7 @@
       function sort() {
         dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
         console.log(dbstore);
-        $(".list-group").empty();
+        $(".panel-group").empty();
         getTickets(dbstore);
       }
     </script>
