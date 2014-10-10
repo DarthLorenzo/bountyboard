@@ -137,19 +137,20 @@
                   $("#addBounty"+i).html("Up the Booty")
                   $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html())+parseInt($("#bountyOffered"+i).val()))
                 });
-                $("#addBounty"+i+".btn-info").click(function () {
-                  $("#bountySubmit"+i).show()
-                  $("#bountySlider"+i).show()
-                  $("#addBounty"+i).removeClass("btn-info")
-                  $("#addBounty"+i).addClass("btn-warning")
-                  $("#addBounty"+i).html("Cancel")
-                });
-                $("#addBounty"+i+".btn-warning").click(function () {
-                    $("#bountySubmit"+i).hide()
-                    $("#bountySlider"+i).hide()
-                    $("#addBounty"+i).removeClass("btn-warning")
-                    $("#addBounty"+i).addClass("btn-info")
-                    $("#addBounty"+i).html("Up the Booty")
+                $("#addBounty"+i).click(function () {
+                  if ($("#addBounty"+i).hasClass("btn-info")) {
+                      $("#bountySubmit"+i).show()
+                      $("#bountySlider"+i).show()
+                      $("#addBounty"+i).removeClass("btn-info")
+                      $("#addBounty"+i).addClass("btn-warning")
+                      $("#addBounty"+i).html("Cancel")
+                  } else {
+                      $("#bountySubmit"+i).hide()
+                      $("#bountySlider"+i).hide()
+                      $("#addBounty"+i).removeClass("btn-warning")
+                      $("#addBounty"+i).addClass("btn-info")
+                      $("#addBounty"+i).html("Up the Booty")
+                  }
                 });
                 if (i === 9 || i >= data.length) {
                     return false;
