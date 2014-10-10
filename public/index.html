@@ -89,7 +89,9 @@
                 .done(function(project_object) {
                   console.log(project_object.imageURL);
                   var badge = "<div class='list-group-item'>\
-                                <span class='badge' style=background-color:#D52727>"+json_object.bounty+"</span>";
+                                <span class='badge' style='background-color:"+
+                                stringToColor(project_object.language) +
+                                  "'>"+json_object.bounty+"</span>";
                   var header = "<div class='list-group-item-heading'><div class='row'"+
                                   "<h4>"+
                                     "<div class='col-md-8'>"+
