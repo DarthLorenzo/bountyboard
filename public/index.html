@@ -83,7 +83,7 @@
       getTickets(dbstore);
       function getTickets(dbstore) {
         $.getJSON(dbstore)
-          .done(function(data) { 
+          .done(function(data) {
             $.each(data, function( i, json_object ) {
               $.getJSON("http://localhost:3000/projects/"+json_object.project_id+".json")
                 .done(function(project_object) {
@@ -109,8 +109,8 @@
                                     <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Up the Booty</a>\
                                     <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
                                     <div id='bountySlider"+i+"' class='col-sm-6 pull-right' style='display: none'>\
-                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Booty Offered: <span id='bountyValue"+i+"'></span></label>\
-                                      <input id='bountyOffered"+i+"' type='range' min=0 step=25 >\
+                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Booty Offered: <span id='bountyValue"+i+"'>0</span></label>\
+                                      <input id='bountyOffered"+i+"' type='range' min=0 step=25 value=0>\
                                     </div>\
                                   </div>\
                                 </div>\
@@ -130,12 +130,18 @@
                         }
                       }
                     )
+<<<<<<< Updated upstream
                   $("#bountySubmit"+i).hide()
                   $("#bountySlider"+i).hide()
                   $("#addBounty"+i).removeClass("btn-warning")
                   $("#addBounty"+i).addClass("btn-info")
                   $("#addBounty"+i).html("Up the Booty")
                   $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html())+parseInt($("#bountyOffered"+i).val()))
+=======
+                  $("#bountySubmit"+i).hide();
+                  $("#bountySlider"+i).hide();
+                  $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html()) + parseInt($("#bountyOffered" + i).val()));
+>>>>>>> Stashed changes
                 });
                 $("#addBounty"+i).click(function () {
                   if ($("#addBounty"+i).hasClass("btn-info")) {
@@ -156,7 +162,7 @@
                     return false;
                 }
               });
-            }); 
+            });
           });
         }
 
@@ -182,7 +188,7 @@
               var image= "<div class='row'><div class='col-md-3'><class='pull-left'>" +
                             "<img class='media-object' data-source='holder.js/128x128' alt='128x128'"+
                             "src='"+json_object.imageURL+ "' style='width:128px; height:128px'</a></div>";
-              var title = "<div class='col-md-8'> <div class='list-group-item-heading'>" + 
+              var title = "<div class='col-md-8'> <div class='list-group-item-heading'>" +
                             "<h3>"+name+"</h3>";
               var githubLink;
               if(json_object.link == "none"){
