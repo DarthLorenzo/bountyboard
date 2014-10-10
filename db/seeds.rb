@@ -22,15 +22,48 @@ User.create([
 		budget: 0
 	}])
 
-
-
+Project.create(
+	name: "Miscellaneous",
+	link: "none",
+	language: "unknown",
+	contact: "Claire Cahill",
+	imageURL: "resources/Miscellaneous.png")
 Project.create(
 	name: "Firebird",
 	link: "https://github.com/bazaarvoice/firebird",
 	language: "Javascript",
 	contact: "Rebecca Murphy",
 	imageURL: "http://media-cache-ec0.pinimg.com/736x/98/fd/00/98fd002ce5778e7f0b87b6d2255985e7.jpg")
-
+Project.create(
+	name: "Flynn",
+	link: "https://github.com/bazaarvoice/flynn",
+	language: "Scala",
+	contact: "Jona Fenocchi",
+	imageURL: "resources/Flynn.png")
+Project.create(
+	name: "Rudy",
+	link: "https://github.com/bazaarvoice/rudy",
+	language: "Java",
+	contact: "Juicy J",
+	imageURL: "resources/Rudy.png")
+Project.create(
+	name: "Gumshoe",
+	link: "https://github.com/bazaarvoice/gumshoe",
+	language: "Java",
+	contact: "Sherlock Holmes",
+	imageURL: "resources/Gumshoe.png")
+Project.create(
+	name: "Badger",
+	link: "https://github.com/bazaarvoice/badger",
+	language: "Java",
+	contact: "Honey Badger",
+	imageURL: "resources/Badger.png")
+Project.create(
+	name: "Rosetta",
+	link: "https://github.com/bazaarvoice/rosetta",
+	language: "Java",
+	contact: "Rosetta Stone",
+	imageURL: "resources/Rosetta.png")
 
 
 Ticket.create(
@@ -43,7 +76,6 @@ Ticket.create(
 	description: "I'm really bad at javascript, html, and css! Are you a front end developer? Do you know what you're doing? Are you like me and just want a little break from writing elasticsearch queries?? Please help me by fully encorporating the bybootstrap css to make our project look more b:adass! Let me know if you have any questions, and I'd be happy to help!",
 	user_id: 1,
 	project_id: 1)
-
 
 
 Donation.create(
