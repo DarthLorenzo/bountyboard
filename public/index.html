@@ -7,7 +7,7 @@
     <meta name="description" content="B:ounty Board">
     <meta name="author" content="Clayton Stout">
     <link rel="icon" href="favicon.ico">
-    <title>B:ounty Board</title>
+    <title>B:ountyboard</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bvbootstrap.min.css" rel="stylesheet">
@@ -28,15 +28,16 @@
     <div class="container theme-showcase" role="main">
 
       <div class="jumbotron">
-        <h1><i class="icon-b"></i>ountyBoard</h1>
-        <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some booty? Check the outstanding requests below!</p>
+        <div class="row">
+        <h1 style="color:#00ae97;"><i class="icon-b"></i>ountyboard</h1>
+      </div>
+        <p style="color:#254061">Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some booty? Check the outstanding requests below!</p>
       </div>
 
 
       <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
         <li class="active"><a href="#home" data-toggle="tab">Open Bounties</a></li>
         <li><a href="#projects" data-toggle="tab">Projects</a></li>
-        <li><a href="#messages" data-toggle="tab">Messages</a></li>
       </ul>
 
       <div class="tab-content">
@@ -49,12 +50,12 @@
             </div>
 
             <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
-              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Post a Bounty</a>
+              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Offer some Booty</a>
               <span>Sort by:</span>
               <select class="form-control" id="sort" onchange="sort();">
                 <option value="descDate">Newest first</option>
                 <option value="ascDate">Oldest first</option>
-                <option value="descBounty">Sort by bounty</option>
+                <option value="descBounty">Sort by booty</option>
               </select>
             </div>
           </div>
@@ -65,8 +66,6 @@
             <div class="list-group" id="projectList"></div>
           </div>
         </div>
-
-        <div class="tab-pane" id="messages">...</div>
       </div>
     </div>
 
@@ -103,10 +102,10 @@
                                         <p>" + json_object.description + "</p>\
                                         <div class='row'> \
                                           <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
-                                          <a id='addBounty"+i+"' class='btn btn-info pull-left'>Up the Bounty</a>\
+                                          <a id='addBounty"+i+"' class='btn btn-info pull-left'>Up the Booty</a>\
                                           <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
                                           <div id='bountySlider"+i+"' class='form-group col-sm-6 pull-right' style='display: none'>\
-                                              <label for='bountyOffered"+i+"'>Bounty Offered: <span id='bountyValue"+i+"'></span></label>\
+                                              <label for='bountyOffered"+i+"'>Booty Offered: <span id='bountyValue"+i+"'></span></label>\
                                               <input id='bountyOffered"+i+"' type='range' min=0 step=25 >\
                                           </div>\
                                         </div>\

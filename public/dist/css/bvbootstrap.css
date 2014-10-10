@@ -1302,7 +1302,8 @@ h6,
 .h5,
 .h6
 {
-    font-family: GibsonRegular, Helvetica, Arial, sans-serif;
+    font-family: foralpro, GibsonRegular, Helvetica, Arial, sans-serif;
+    src: url(../fonts/foralpro-regularwebfont.woff);
     font-weight: 500;
     line-height: 1.1;
 
