@@ -133,6 +133,7 @@
                     )
                   $("#bountySubmit"+i).hide()
                   $("#bountySlider"+i).hide()
+                  $("#claimBounty"+i).show()
                   $("#addBounty"+i).removeClass("btn-warning")
                   $("#addBounty"+i).addClass("btn-info")
                   $("#addBounty"+i).html("Up the Booty")
@@ -140,6 +141,7 @@
                 });
                 $("#addBounty"+i).click(function () {
                   if ($("#addBounty"+i).hasClass("btn-info")) {
+                      $("#claimBounty"+i).hide();
                       $("#bountySubmit"+i).show()
                       $("#bountySlider"+i).show()
                       $("#addBounty"+i).removeClass("btn-info")
@@ -148,6 +150,7 @@
                   } else {
                       $("#bountySubmit"+i).hide()
                       $("#bountySlider"+i).hide()
+                      $("#claimBounty"+i).show()
                       $("#addBounty"+i).removeClass("btn-warning")
                       $("#addBounty"+i).addClass("btn-info")
                       $("#addBounty"+i).html("Up the Booty")
