@@ -38,6 +38,7 @@
         <li><a href="#projects" data-toggle="tab">Projects</a></li>
         <li><a href="#messages" data-toggle="tab">Messages</a></li>
       </ul>
+
       <div class="tab-content">
         <div class="tab-pane active" id="home">
           <!--<div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>div-->
@@ -58,7 +59,13 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane" id="projects">...</div>
+
+        <div class="tab-pane" id="projects">
+          <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+            <div class="list-group" id="projectList"></div>
+          </div>
+        </div>
+
         <div class="tab-pane" id="messages">...</div>
       </div>
     </div>
@@ -77,8 +84,7 @@
       getTickets(dbstore);
       function getTickets(dbstore) {
         $.getJSON(dbstore)
-          .done(function(data) {
-            var bounties_list_items = [];
+          .done(function(data) { 
             $.each(data, function( i, json_object ) {
               $.getJSON("http://localhost:3000/projects/"+json_object.project_id+".json")
                 .done(function(project_object) {
@@ -123,9 +129,48 @@
                     return false;
                   }
               });
-            });
+            }); 
           });
         }
+
+      var stringToColor = function(str) {
+        // str to hash
+        for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
+
+        // int/hash to hex
+        for (var i = 0, colour = "#"; i < 3; colour += ("00" + ((hash >> i++ * 8) & 0xFF).toString(16)).slice(-2));
+        return colour;
+      }
+
+      getProjects();
+      function getProjects() {
+        $.getJSON("http://localhost:3000/projects.json")
+          .done(function(data){
+            $.each(data, function(i, json_object){
+              var name = json_object.name;
+              var repoName = name + " Repo";
+              var header = "<div class='row-fluid'><div class='list-group-item'> <span class='badge'"+
+                            "style='background-color:" + stringToColor(json_object.language) + "'>"+
+                            json_object.language+"</span>";
+              var image= "<div class='row'><div class='col-md-3'><class='pull-left'>" +
+                            "<img class='media-object' data-source='holder.js/128x128' alt='128x128'"+
+                            "src='"+json_object.imageURL+ "' style='width:128px; height:128px'</a></div>";
+              var title = "<div class='col-md-8'> <div class='list-group-item-heading'>" + 
+                            "<h3>"+name+"</h3>";
+              var githubLink;
+              if(json_object.link == "none"){
+                  githubLink = "</div>";
+              } else {
+                  githubLink = "<a href='"+ json_object.link+"'><i class='icon-github'/> "+
+                  repoName+" </a></div>";
+              }
+              var details = "<div class='list-group-item-text'><p> Project Details here</p>"+
+                             "</div></div></div></div></div>";
+              $(header+image+title+githubLink+details).appendTo("#projectList");
+            });
+          });
+      };
+
 
       function sort() {
         dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
