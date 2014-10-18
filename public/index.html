@@ -29,8 +29,8 @@
 
       <div class="jumbotron">
         <div class="row">
-        <h1 style="color:#00ae97;"><i class="icon-b"></i>ountyboard</h1>
-      </div>
+          <img src="resources/LOGO.png" />
+        </div>
         <p style="color:#254061">Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some booty? Check the outstanding requests below!</p>
       </div>
 
@@ -57,6 +57,16 @@
                 <option value="ascDate">Oldest first</option>
                 <option value="descBounty">Biggest booty first</option>
               </select>
+              <br>
+              <span style="margin-top: 12px">Search by:</span>
+              <div class="row" style="margin-left: 5px; margin-top: 12px; margin-bottom: 12px">
+                  <label>Project</label>
+                  <input class="input-sm pull-right" type="text">
+              </div>
+              <div class="row" style="margin-left: 5px">
+                  <label>Language</label>
+                  <input class="input-sm pull-right" type="text">
+              </div>
             </div>
           </div>
         </div>
@@ -92,7 +102,7 @@
                                    <h4 class='panel-title'>\
                                      <a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>"+json_object.title+"</a>\
                                      <div class='col-md-1 pull-right'>\
-                                       <span id='bountyLable"+i+"' class='badge pull-right'>"+json_object.bounty+"</span>\
+                                       <span id='bountyLable"+i+"' class='badge pull-right' style='background-color: #00ae97'>"+json_object.bounty+"</span>\
                                      </div>\
                                      <div class='col-md-1 pull-right'>\
                                        <a class='pull-right'>\
@@ -107,12 +117,12 @@
                                   <div class='row' style='margin-left: 0; margin-right: 0;'> \
                                     <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
                                     <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Up the Booty</a>\
-                                    <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Submit</a> \
+                                    <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Slap It On</a> \
                                     <div id='bountySlider"+i+"' class='col-sm-6 pull-right' style='display: none'>\
                                       <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Booty Offered: <span id='bountyValue"+i+"'>0</span></label>\
-                                      <input id='bountyOffered"+i+"' type='range' min=0 step=25 value=0>\
+                                      <input id='bountyOffered"+i+"' type='range' min=0 max=400 step=25 value=0>\
                                     </div>\
-                                    <a id='claimBounty" +i+ "' class='btn btn-primary pull-right'>Claim Bounty</a>\
+                                    <a id='claimBounty" +i+ "' class='btn btn-primary pull-right'>Claim Booty</a>\
                                   </div>\
                                 </div>\
                               </div></div>"
@@ -146,7 +156,7 @@
                       $("#bountySlider"+i).show()
                       $("#addBounty"+i).removeClass("btn-info")
                       $("#addBounty"+i).addClass("btn-warning")
-                      $("#addBounty"+i).html("Cancel")
+                      $("#addBounty"+i).html("Back it up")
                   } else {
                       $("#bountySubmit"+i).hide()
                       $("#bountySlider"+i).hide()
@@ -195,7 +205,7 @@
                   githubLink = "<a href='"+ json_object.link+"'><i class='icon-github'/> "+
                   repoName+" </a></div>";
               }
-              var details = "<div class='list-group-item-text'><p> Project Details here</p>"+
+              var details = "<div class='list-group-item-text'><p>"+json_object.description+"</p>"+
                              "</div></div></div></div></div>";
               $(header+image+title+githubLink+details).appendTo("#projectList");
             });

@@ -23,46 +23,60 @@ User.create([
 	}])
 
 Project.create(
-	name: "Miscellaneous",
-	link: "none",
-	language: "unknown",
+	name: "Bounty Board",
+	link: "https://github.com/bazaarvoice/rosetta",
+	language: "Javascript",
 	contact: "Claire Cahill",
-	imageURL: "resources/Miscellaneous.png",
-	description: "Description")
+	imageURL: "resources/Bountyboard.png",
+	description: "Attaching promises of booty in exchange for work")
 Project.create(
 	name: "Flynn",
 	link: "https://github.com/bazaarvoice/flynn",
 	language: "Scala",
 	contact: "Jona Fenocchi",
 	imageURL: "resources/Flynn.png",
-	description: "Description")
+	description: "For exploring Polloi-based ElasticSearch clusters")
 Project.create(
 	name: "Rudy",
 	link: "https://github.com/bazaarvoice/rudy",
 	language: "Java",
 	contact: "Juicy J",
 	imageURL: "resources/Rudy.png",
-	description: "Description")
+	description: "For debugging Syndication 2.0: Switchboard, Oracle, Theo, and Agrippa")
 Project.create(
 	name: "Gumshoe",
 	link: "https://github.com/bazaarvoice/gumshoe",
 	language: "Java",
 	contact: "Sherlock Holmes",
 	imageURL: "resources/Gumshoe.png",
-	description: "Description")
+	description: "Investigating Bazaarvoice's data asset")
 Project.create(
 	name: "Badger",
 	link: "https://github.com/bazaarvoice/badger",
 	language: "Java",
 	contact: "Honey Badger",
 	imageURL: "resources/Badger.png",
-	description: "Description")
+	description: "Monitoring Bazaarvoice services")
 Project.create(
 	name: "Rosetta",
 	link: "https://github.com/bazaarvoice/rosetta",
 	language: "Java",
 	contact: "Rosetta Stone",
 	imageURL: "resources/Rosetta.png",
+	description: "For understanding client configuration")
+Project.create(
+	name: "Banyan",
+	link: "https://github.com/bazaarvoice/banyan",
+	language: "Java",
+	contact: "Rosetta Stone",
+	imageURL: "resources/banyan.png",
+	description: "Data store for internal client configurations")
+Project.create(
+	name: "Miscellaneous",
+	link: "none",
+	language: "unknown",
+	contact: "Claire Cahill",
+	imageURL: "resources/Miscellaneous.png",
 	description: "Description")
 
 
@@ -70,23 +84,10 @@ Ticket.create(
 	title: 'Building the bounty board!',
 	description: 'We would like to have a bounty board where we can post up new ideas for 20% projects and give rewards for their completion.',
 	user_id: 2,
-	project_id: 3)
-Ticket.create(
-	title: 'Adding the BV theme back into our bounty board project',
-	description: "I'm really bad at javascript, html, and css! Are you a front end developer? Do you know what you're doing? Are you like me and just want a little break from writing elasticsearch queries?? Please help me by fully encorporating the bybootstrap css to make our project look more b:adass! Let me know if you have any questions, and I'd be happy to help!",
-	user_id: 1,
-	project_id: 5)
+	project_id: 1)
 
 
 Donation.create(
 	user_id: 2,
 	ticket_id: 1,
 	amount: 100)
-Donation.create(
-	user_id: 1,
-	ticket_id: 2,
-	amount: 250)
-Donation.create(
-	user_id: 1,
-	ticket_id: 2,
-	amount: 900)

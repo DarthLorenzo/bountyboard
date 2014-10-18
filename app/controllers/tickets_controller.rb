@@ -11,8 +11,8 @@ class TicketsController < ApplicationController
       @tickets = Ticket.all.order(created_at: :desc)
     # elsif params[:sort] == 'ascBounty'
     #     @tickets = Ticket.all.order(bounty: :asc)
-    # elsif params[:sort] == 'descBounty'
-    #     @tickets = Ticket.all.order(bounty: :desc)
+    elsif params[:sort] == 'descBounty'
+      @tickets = Ticket.all.order(bounty: :desc)
     else
       @tickets = Ticket.all
     end
