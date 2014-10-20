@@ -2,6 +2,10 @@ class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
   skip_before_filter  :verify_authenticity_token
 
+  def desplay
+
+  end
+
   # GET /tickets
   # GET /tickets.json
   def index

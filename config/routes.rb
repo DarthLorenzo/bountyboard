@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  root :to => "tickets#display"
+
   resources :donations
 
   resources :tickets
