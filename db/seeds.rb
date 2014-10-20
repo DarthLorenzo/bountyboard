@@ -28,7 +28,7 @@ Project.create(
 	language: "Javascript",
 	contact: "Claire Cahill",
 	imageURL: "resources/Bountyboard.png",
-	description: "Attaching promises of booty in exchange for work")
+	description: "Attaching promises of bounty in exchange for work")
 Project.create(
 	name: "Flynn",
 	link: "https://github.com/bazaarvoice/flynn",

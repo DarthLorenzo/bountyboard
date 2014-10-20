@@ -31,7 +31,7 @@
         <div class="row">
           <img src="resources/LOGO.png" />
         </div>
-        <p style="color:#254061">Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some booty? Check the outstanding requests below!</p>
+        <p style="color:#254061">Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
       </div>
 
 
@@ -50,12 +50,12 @@
             </div>
 
             <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
-              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Offer some Booty</a>
+              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Offer some Bounty</a>
               <span>Sort by:</span>
               <select class="form-control" id="sort" onchange="sort();">
                 <option value="descDate">Newest first</option>
                 <option value="ascDate">Oldest first</option>
-                <option value="descBounty">Biggest booty first</option>
+                <option value="descBounty">Biggest bounty first</option>
               </select>
               <br>
               <span style="margin-top: 12px">Search by:</span>
@@ -116,13 +116,13 @@
                                   <p>" + json_object.description + "</p>\
                                   <div class='row' style='margin-left: 0; margin-right: 0;'> \
                                     <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
-                                    <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Up the Booty</a>\
+                                    <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Add to the Bounty</a>\
                                     <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Slap It On</a> \
                                     <div id='bountySlider"+i+"' class='col-sm-6 pull-right' style='display: none'>\
-                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Booty Offered: <span id='bountyValue"+i+"'>0</span></label>\
+                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue"+i+"'>0</span></label>\
                                       <input id='bountyOffered"+i+"' type='range' min=0 max=400 step=25 value=0>\
                                     </div>\
-                                    <a id='claimBounty" +i+ "' class='btn btn-primary pull-right'>Claim Booty</a>\
+                                    <a id='claimBounty" +i+ "' class='btn btn-primary pull-right'>Claim Bounty</a>\
                                   </div>\
                                 </div>\
                               </div></div>"
@@ -146,7 +146,7 @@
                   $("#claimBounty"+i).show()
                   $("#addBounty"+i).removeClass("btn-warning")
                   $("#addBounty"+i).addClass("btn-info")
-                  $("#addBounty"+i).html("Up the Booty")
+                  $("#addBounty"+i).html("Add to the Bounty")
                   $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html())+parseInt($("#bountyOffered"+i).val()))
                 });
                 $("#addBounty"+i).click(function () {
@@ -163,7 +163,7 @@
                       $("#claimBounty"+i).show()
                       $("#addBounty"+i).removeClass("btn-warning")
                       $("#addBounty"+i).addClass("btn-info")
-                      $("#addBounty"+i).html("Up the Booty")
+                      $("#addBounty"+i).html("Add to the Bounty")
                   }
                 });
                 if (i === 9 || i >= data.length) {
