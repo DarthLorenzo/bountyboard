@@ -1,12 +1,10 @@
 bountyboard
 ===========
 
-This is a web service that
+This is a web service that allows users to share ideas for new or existing projects and vote to support the completion of those ideas.
 
 
 To run:
- - Install rails
- - Run `bundle install`
- - Run `rake db:create`
- - Run `rake db:migreate`
- - Run `rails s`
+ - Create a python virtualenv
+ - Run `pip install -r requirements.txt`
+ - Run `python bountyboard.py`
