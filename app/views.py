@@ -4,6 +4,7 @@ from flask.ext.bootstrap import Bootstrap
 from app import app, db, models
 bootstrap = Bootstrap(app)
 
+@app.route('/index')
 @app.route('/')
 def index():
     # Project("bountyboard", "Rosetta.png")
