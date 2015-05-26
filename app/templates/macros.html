@@ -1,0 +1,32 @@
+{% macro bounty_row(bounty) %}
+<div class='panel panel-default'>
+  <div class='panel-heading'>
+   <h4 class='panel-title'>
+     <a data-toggle='collapse' data-parent='#accordion' href='#collapse'>{{bounty.title}}</a>
+     <div class='col-md-1 pull-right'>
+       <span id='bountyLable' class='badge pull-right' style='background-color: #00ae97'>{{ bounty.pledges|sum(attribute="amount") }}</span>
+     </div>
+     <div class='col-md-1 pull-right'>
+       <a class='pull-right'>
+         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='{{ url_for('static', filename=bounty.project.logo_url) }}' style='margin-top: -7px; width:32px; height:32px'/>
+       </a>
+     </div>
+   </h4>
+  </div>
+  <div id='collapse' class='panel-collapse collapse'>
+    <div class='panel-body'>
+      <p>{{bounty.description}}</p>
+      <div class='row' style='margin-left: 0; margin-right: 0;'> 
+        <a class='btn pull-left' href=mailto:advisor21@gmail.com?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>
+        <a id='addBounty' class='btn btn-info pull-left' style='margin-left: 8px'>Add to the Bounty</a>
+        <a id='bountySubmit' class='btn btn-primary pull-right' style='display: none'>Slap It On</a>
+        <div id='bountySlider' class='col-sm-6 pull-right' style='display: none'>
+          <label for='bountyOffered' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue'>0</span></label>
+          <input id='bountyOffered' type='range' min=0 max=400 step=25 value=0>
+        </div>
+        <a id='claimBounty' class='btn btn-primary pull-right'>Claim Bounty</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
