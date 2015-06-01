@@ -7,5 +7,5 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
 
-SERVER_NAME="127.0.0.1"
-SERVER_PORT=5000
+# SERVER_NAME = "127.0.0.1"
+# SERVER_PORT = 5000

@@ -7,7 +7,5 @@ bootstrap = Bootstrap(app)
 @app.route('/index')
 @app.route('/')
 def index():
-    # Project("bountyboard", "Rosetta.png")
-    # bounty = Bounty("Teach Claire to code", "blah blah blah blah, teach claire to code", 200, project)
     bounties = models.Bounty.query.all()
     return render_template('index.html', bounties=bounties)

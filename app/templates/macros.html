@@ -1,23 +1,23 @@
-{% macro bounty_row(bounty) %}
+{% macro bounty_row(bounty, index) %}
 <div class='panel panel-default'>
-  <div class='panel-heading'>
+  <div class='panel-heading' role="tab" id="heading{{index}}">
    <h4 class='panel-title'>
-     <a data-toggle='collapse' data-parent='#accordion' href='#collapse'>{{bounty.title}}</a>
+     <a data-toggle='collapse' data-parent='#accordion' href='#collapse{{index}}' aria-expanded="true" aria-controls="collapse{{index}}">{{bounty.title}}</a>
      <div class='col-md-1 pull-right'>
        <span id='bountyLable' class='badge pull-right' style='background-color: #00ae97'>{{ bounty.pledges|sum(attribute="amount") }}</span>
      </div>
      <div class='col-md-1 pull-right'>
        <a class='pull-right'>
-         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='{{ url_for('static', filename=bounty.project.logo_url) }}' style='margin-top: -7px; width:32px; height:32px'/>
+         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -7px; width:32px; height:32px'/>
        </a>
      </div>
    </h4>
   </div>
-  <div id='collapse' class='panel-collapse collapse'>
+  <div id='collapse{{index}}' class='panel-collapse collapse in' role="tabpanel" aria-labelledby="heading{{index}}">
     <div class='panel-body'>
       <p>{{bounty.description}}</p>
       <div class='row' style='margin-left: 0; margin-right: 0;'> 
-        <a class='btn pull-left' href=mailto:advisor21@gmail.com?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>
+        <a class='btn btn-default pull-left'> Ask for more info! </a>
         <a id='addBounty' class='btn btn-info pull-left' style='margin-left: 8px'>Add to the Bounty</a>
         <a id='bountySubmit' class='btn btn-primary pull-right' style='display: none'>Slap It On</a>
         <div id='bountySlider' class='col-sm-6 pull-right' style='display: none'>
@@ -30,3 +30,17 @@
   </div>
 </div>
 {% endmacro %}
+
+{% macro render_dialog(title, class='dialog') -%}
+    <div class="{{ class }}">
+        <h2>{{ title }}</h2>
+        <div class="contents">
+            {{ caller() }}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% call render_dialog('Hello World') %}
+    This is a simple dialog rendered by using a macro and
+    a call block.
+{% endcall %}
