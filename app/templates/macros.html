@@ -13,7 +13,7 @@
      </div>
    </h4>
   </div>
-  <div id='collapse{{index}}' class='panel-collapse collapse in' role="tabpanel" aria-labelledby="heading{{index}}">
+  <div id='collapse{{index}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index}}">
     <div class='panel-body'>
       <p>{{bounty.description}}</p>
       <div class='row' style='margin-left: 0; margin-right: 0;'> 
@@ -30,6 +30,36 @@
   </div>
 </div>
 {% endmacro %}
+
+{% macro project_row(project, index) %}
+<div class='row-fluid'>
+  <div class='list-group-item'>
+    <span class='badge' style='background-color:red{# stringToColor(project.language) #}'>
+      Python{# project.language #}
+    </span>
+    <div class='row'>
+      <div class='col-md-3 pull-left'>
+        <img class='media-object' data-source='holder.js/128x128' alt='128x128' src='{{ url_for("static", filename=project.img_url) }}' style='width:128px; height:128px'>
+        </img>
+      </div>
+      <div class='col-md-8'>
+        <div class='list-group-item-heading'>
+          <h3>{{ project.name }}</h3>
+          <a href='{{ project.github_url }}'>
+            <i class='icon-github'></i>
+            Github
+          </a>
+        </div>
+        <div class='list-group-item-text'>
+          <p>{{project.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
 
 {% macro render_dialog(title, class='dialog') -%}
     <div class="{{ class }}">
