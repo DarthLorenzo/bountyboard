@@ -8,4 +8,5 @@ bootstrap = Bootstrap(app)
 @app.route('/')
 def index():
     bounties = models.Bounty.query.all()
-    return render_template('index.html', bounties=bounties)
+    projects = models.Project.query.all()
+    return render_template('index.html', bounties=bounties, projects=projects)
