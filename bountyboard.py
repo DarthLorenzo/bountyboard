@@ -1,8 +1,6 @@
 #!/bin/env python
-from config import SERVER_HOST_NAME
-from config import SERVER_PORT
+import os
 from app import app
 
 if __name__ == '__main__':
-    app.run(SERVER_HOST_NAME, int(SERVER_PORT), debug=True)
-	# app.run(debug=True)
+    app.run(os.getenv('SERVER_NAME'), int( os.getenv('SERVER_PORT') ), debug=True)
