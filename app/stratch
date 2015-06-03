@@ -1,0 +1,20 @@
+from app import db, models
+jesse = models.User(name="Jesse", email="jesse.vera@bazaarvoice.com", budget=1000)
+
+db.session.add(jesse)
+db.session.commit()
+
+bountyboard = models.Project(name="Bounty Board", github_url="https://github.com/DarthLorenzo/bountyboard", img_url="bountyboard.png")
+db.session.add(bountyboard)
+db.session.commit()
+
+
+hubble = models.Project(name="Hubble", github_url="https://github.com/bazaarvoice/hubble", img_url="flynn.png")
+
+j_bounty = models.Bounty(project_id=bountyboard.id, title="make the bountyboard", description="The bounty board is just slightly more than an idea right now, finish it", active=True)
+
+
+claire = models.User(name="Claire", email="claire.cahill@bazaarvoice.com", budget=1000)
+
+
+c_bounty = models.Bounty(title="teach Claire to code", description="Claire needs to learn python before the next hackathonn", active=True)

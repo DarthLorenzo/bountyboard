@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="B:ounty Board">
+    <meta name="author" content="Clayton Stout">
+    <link rel="icon" href="favicon.ico">
+    <title>B:ountyboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bvbootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <!--<link href="dist/css/bvbootstrap-theme.min.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="dist/css/bvbootstrap-theme.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="container theme-showcase" role="main">
+
+      <div class="jumbotron">
+        <div class="row">
+          <img src="resources/LOGO.png" />
+        </div>
+        <p style="color:#254061">Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
+      </div>
+
+
+      <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
+        <li class="active"><a href="#home" data-toggle="tab">Open Bounties</a></li>
+        <li><a href="#projects" data-toggle="tab">Projects</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">
+          <!--<div class="col-md-12" style="min-height:20px; border-left:1px solid #DDD; border-right:1px solid #DDD"></div>div-->
+          <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+
+            <div class="col-md-9" style="padding-left: 0px">
+                <div class="panel-group" id="accordion"></div>
+            </div>
+
+            <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+              <a type="button" class="btn btn-lg btn-primary btn-block" style="margin-bottom: 24px" href="submit.html">Offer a Bounty</a>
+              <span>Sort by:</span>
+              <select class="form-control" id="sort" onchange="sort();">
+                <option value="descDate">Newest first</option>
+                <option value="ascDate">Oldest first</option>
+                <option value="descBounty">Biggest bounty first</option>
+              </select>
+              <br>
+              <span style="margin-top: 12px">Search by:</span>
+              <div class="row" style="margin-left: 5px; margin-top: 12px; margin-bottom: 12px">
+                  <label>Project</label>
+                  <input class="input-sm pull-right" type="text">
+              </div>
+              <div class="row" style="margin-left: 5px">
+                  <label>Language</label>
+                  <input class="input-sm pull-right" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="projects">
+          <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+            <div class="list-group" id="projectList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="dist/js/bvbootstrap.min.js"></script>
+
+    <script async src="http://utilities.qa.us-east-1.nexus.bazaarvoice.com/belt/belt.js"></script>
+
+    <script src="defaultBootstrap/docs/assets/js/docs.min.js"></script>
+
+    <script>
+      var dbstore = "http://localhost:3000/tickets.json?sort=descDate";
+      getTickets(dbstore);
+      function getTickets(dbstore) {
+        $.getJSON(dbstore)
+          .done(function(data) {
+            $.each(data, function( i, json_object ) {
+              $.getJSON("http://localhost:3000/projects/"+json_object.project_id+".json")
+                .done(function(project_object) {
+                  var badge = "<div class='panel panel-default'>";
+                  var header =  "<div class='panel-heading'>\
+                                   <h4 class='panel-title'>\
+                                     <a data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'>"+json_object.title+"</a>\
+                                     <div class='col-md-1 pull-right'>\
+                                       <span id='bountyLable"+i+"' class='badge pull-right' style='background-color: #00ae97'>"+json_object.bounty+"</span>\
+                                     </div>\
+                                     <div class='col-md-1 pull-right'>\
+                                       <a class='pull-right'>\
+                                         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='"+project_object.imageURL+"' style='margin-top: -7px; width:32px; height:32px'/>\
+                                       </a>\
+                                     </div>\
+                                   </h4>\
+                                 </div>";
+                  var desc = "<div id='collapse"+i+ "' class='panel-collapse collapse'>\
+                                <div class='panel-body'> \
+                                  <p>" + json_object.description + "</p>\
+                                  <div class='row' style='margin-left: 0; margin-right: 0;'> \
+                                    <a class='btn pull-left' href=mailto:"+ json_object.owner.email + "?Subject=I%20am%20interested%20in%20your%20bounty> Ask for more info! </a>\
+                                    <a id='addBounty"+i+"' class='btn btn-info pull-left' style='margin-left: 8px'>Add to the Bounty</a>\
+                                    <a id='bountySubmit"+i+"' class='btn btn-primary pull-right' style='display: none'>Slap It On</a> \
+                                    <div id='bountySlider"+i+"' class='col-sm-6 pull-right' style='display: none'>\
+                                      <label for='bountyOffered"+i+"' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue"+i+"'>0</span></label>\
+                                      <input id='bountyOffered"+i+"' type='range' min=0 max=400 step=25 value=0>\
+                                    </div>\
+                                    <a id='claimBounty" +i+ "' class='btn btn-primary pull-right'>Claim Bounty</a>\
+                                  </div>\
+                                </div>\
+                              </div></div>"
+
+                $(badge+header+desc).appendTo("#accordion");
+                $("#bountyOffered"+i).on("change mousemove", function () {
+                  $("#bountyValue"+i).html($("#bountyOffered"+i).val())
+                });
+                $("#bountySubmit"+i).click(function () {
+                  $.post("http://localhost:3000/donations",
+                      {
+                        donation: {
+                          user_id: 1,
+                          ticket_id: json_object.id,
+                          amount: $("#bountyOffered"+i).val()
+                        }
+                      }
+                    )
+                  $("#bountySubmit"+i).hide()
+                  $("#bountySlider"+i).hide()
+                  $("#claimBounty"+i).show()
+                  $("#addBounty"+i).removeClass("btn-warning")
+                  $("#addBounty"+i).addClass("btn-info")
+                  $("#addBounty"+i).html("Add to the Bounty")
+                  $("#bountyLable"+i).html(parseInt($("#bountyLable"+i).html())+parseInt($("#bountyOffered"+i).val()))
+                });
+                $("#addBounty"+i).click(function () {
+                  if ($("#addBounty"+i).hasClass("btn-info")) {
+                      $("#claimBounty"+i).hide();
+                      $("#bountySubmit"+i).show()
+                      $("#bountySlider"+i).show()
+                      $("#addBounty"+i).removeClass("btn-info")
+                      $("#addBounty"+i).addClass("btn-warning")
+                      $("#addBounty"+i).html("Back it up")
+                  } else {
+                      $("#bountySubmit"+i).hide()
+                      $("#bountySlider"+i).hide()
+                      $("#claimBounty"+i).show()
+                      $("#addBounty"+i).removeClass("btn-warning")
+                      $("#addBounty"+i).addClass("btn-info")
+                      $("#addBounty"+i).html("Add to the Bounty")
+                  }
+                });
+                if (i === 9 || i >= data.length) {
+                    return false;
+                }
+              });
+            });
+          });
+        }
+
+      var stringToColor = function(str) {
+        // str to hash
+        for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
+
+        // int/hash to hex
+        for (var i = 0, colour = "#"; i < 3; colour += ("00" + ((hash >> i++ * 8) & 0xFF).toString(16)).slice(-2));
+        return colour;
+      }
+
+      getProjects();
+      function getProjects() {
+        $.getJSON("http://localhost:3000/projects.json")
+          .done(function(data){
+            $.each(data, function(i, json_object){
+              var name = json_object.name;
+              var repoName = name + " Repo";
+              var header = "<div class='row-fluid'><div class='list-group-item'> <span class='badge'"+
+                            "style='background-color:" + stringToColor(json_object.language) + "'>"+
+                            json_object.language+"</span>";
+              var image= "<div class='row'><div class='col-md-3'><class='pull-left'>" +
+                            "<img class='media-object' data-source='holder.js/128x128' alt='128x128'"+
+                            "src='"+json_object.imageURL+ "' style='width:128px; height:128px'</a></div>";
+              var title = "<div class='col-md-8'> <div class='list-group-item-heading'>" +
+                            "<h3>"+name+"</h3>";
+              var githubLink;
+              if(json_object.link == "none"){
+                  githubLink = "</div>";
+              } else {
+                  githubLink = "<a href='"+ json_object.link+"'><i class='icon-github'/> "+
+                  repoName+" </a></div>";
+              }
+              var details = "<div class='list-group-item-text'><p>"+json_object.description+"</p>"+
+                             "</div></div></div></div></div>";
+              $(header+image+title+githubLink+details).appendTo("#projectList");
+            });
+          });
+      };
+
+
+      function sort() {
+        dbstore = "http://localhost:3000/tickets.json?sort=" + $("#sort").val();
+        console.log(dbstore);
+        $(".panel-group").empty();
+        getTickets(dbstore);
+      }
+    </script>
+
+  </body>
+</html>

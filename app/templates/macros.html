@@ -1,0 +1,76 @@
+{% macro bounty_row(bounty, index) %}
+<div class='panel panel-default'>
+  <div class='panel-heading' role="tab" id="heading{{index}}">
+   <h4 class='panel-title'>
+     <a data-toggle='collapse' data-parent='#accordion' href='#collapse{{index}}' aria-expanded="true" aria-controls="collapse{{index}}">{{bounty.title}}</a>
+     <div class='col-md-1 pull-right'>
+       <span id='bountyLable' class='badge pull-right' style='background-color: #00ae97'>{{ bounty.pledges|sum(attribute="amount") }}</span>
+     </div>
+     <div class='col-md-1 pull-right'>
+       <a class='pull-right'>
+         <img class='media-object' data-source='holder.js/64x64' alt='64x64' src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -7px; width:32px; height:32px'/>
+       </a>
+     </div>
+   </h4>
+  </div>
+  <div id='collapse{{index}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index}}">
+    <div class='panel-body'>
+      <p>{{bounty.description}}</p>
+      <div class='row' style='margin-left: 0; margin-right: 0;'> 
+        <a class='btn btn-default pull-left'> Ask for more info! </a>
+        <a id='addBounty' class='btn btn-info pull-left' style='margin-left: 8px'>Add to the Bounty</a>
+        <a id='bountySubmit' class='btn btn-primary pull-right' style='display: none'>Slap It On</a>
+        <div id='bountySlider' class='col-sm-6 pull-right' style='display: none'>
+          <label for='bountyOffered' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue'>0</span></label>
+          <input id='bountyOffered' type='range' min=0 max=400 step=25 value=0>
+        </div>
+        <a id='claimBounty' class='btn btn-primary pull-right'>Claim Bounty</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro project_row(project, index) %}
+<div class='row-fluid'>
+  <div class='list-group-item'>
+    <span class='badge' style='background-color:red{# stringToColor(project.language) #}'>
+      Python{# project.language #}
+    </span>
+    <div class='row'>
+      <div class='col-md-3 pull-left'>
+        <img class='media-object' data-source='holder.js/128x128' alt='128x128' src='{{ url_for("static", filename=project.img_url) }}' style='width:128px; height:128px'>
+        </img>
+      </div>
+      <div class='col-md-8'>
+        <div class='list-group-item-heading'>
+          <h3>{{ project.name }}</h3>
+          <a href='{{ project.github_url }}'>
+            <i class='icon-github'></i>
+            Github
+          </a>
+        </div>
+        <div class='list-group-item-text'>
+          <p>{{project.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
+
+{% macro render_dialog(title, class='dialog') -%}
+    <div class="{{ class }}">
+        <h2>{{ title }}</h2>
+        <div class="contents">
+            {{ caller() }}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% call render_dialog('Hello World') %}
+    This is a simple dialog rendered by using a macro and
+    a call block.
+{% endcall %}
