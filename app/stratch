@@ -18,3 +18,23 @@ claire = models.User(name="Claire", email="claire.cahill@bazaarvoice.com", budge
 
 
 c_bounty = models.Bounty(title="teach Claire to code", description="Claire needs to learn python before the next hackathonn", active=True)
+
+
+<div class="form-group">
+                {{ new_bounty_form.title.label }}
+                {{ new_bounty_form.title(class_="form-control", placeholder="Enter bounty overview") }}
+              </div>
+              <div class="form-group">
+                {{ new_bounty_form.description.label }}
+                {{ new_bounty_form.description(class_="form-control", rows=6, placeholder="Enter detailed description") }}
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-6 pull-left">
+                  <label for="bountyOffered">Bounty Offered: <span id="bountyValue">0</span></label>
+                  <input type="range" min=0 step=25 value=0 max=800 id="bountyOffered">
+                </div>
+                <div class="form-group col-sm-6">
+                  {{ new_bounty_form.project.label }}
+                  {{ new_bounty_form.project(class_="form-control") }}
+                </div>
+              </div>
