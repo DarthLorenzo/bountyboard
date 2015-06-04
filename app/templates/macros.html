@@ -34,15 +34,20 @@
 {% macro project_row(project, index) %}
 <div class='row-fluid'>
   <div class='list-group-item'>
-    <span class='badge' style='background-color:red{# stringToColor(project.language) #}'>
-      Python{# project.language #}
-    </span>
+    <div class='row pull-right' style='margin-right: 0px'>
+      <span class="label label-default project-tag" style="display: inline-block;">Python <a class='glyphicon glyphicon-remove remove-tag' style='display: none'></a></span>
+      <span class="label label-default" style="display: inline-block;" data-toggle="modal" data-target="#newLabelModal">
+        <a class='tool-tip' data-toggle="tooltip" data-placement="top" title="Add tag to Project">
+          <i class='glyphicon glyphicon-plus'></i>
+        </a>
+      </span>
+    </div>
     <div class='row'>
-      <div class='col-md-3 pull-left'>
+      <div class='col-md-2 pull-left'>
         <img class='media-object' data-source='holder.js/128x128' alt='128x128' src='{{ url_for("static", filename=project.img_url) }}' style='width:128px; height:128px'>
         </img>
       </div>
-      <div class='col-md-8'>
+      <div class='col-md-9'>
         <div class='list-group-item-heading'>
           <h3>{{ project.name }}</h3>
           <a href='{{ project.github_url }}'>
