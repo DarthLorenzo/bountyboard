@@ -1,8 +1,9 @@
 from flask import render_template, request, redirect, url_for
 from flask.ext.bootstrap import Bootstrap
 
-from app import app, db, models
-from .forms import NewBountyForm, SortBountyForm, NewTagForm
+from app import app, db, models, forms
+import identicon
+# from .forms import NewBountyForm, SortBountyForm, NewTagForm
 bootstrap = Bootstrap(app)
 
 @app.route('/')
@@ -14,8 +15,8 @@ def bounties():
     bounties = models.Bounty.query.all()
     projects = models.Project.query.all()
 
-    new_bounty_form = NewBountyForm()
-    sort_bounty_form = SortBountyForm()
+    new_bounty_form = forms.NewBountyForm()
+    sort_bounty_form = forms.SortBountyForm()
 
     new_bounty_form.project.choices = [(p.id, p.name) for p in projects]
     sort_bounty_form.projectFilter.choices = [(p.id, p.name) for p in projects]
@@ -34,12 +35,27 @@ def bounties():
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     projects = models.Project.query.all()
-    new_tag_form = NewTagForm()
+    new_tag_form = forms.NewTagForm()
+    new_project_form = forms.NewProjectForm()
 
     if new_tag_form.validate_on_submit():
         return "YAY"
 
-    return render_template('projects.html', projects=projects, new_tag_form=new_tag_form)
+    if new_project_form.validate_on_submit():
+        name = new_project_form.data['name'].replace(" ", "")
+        image_url = 'projects/%s.png' % name
+        temp_image_url = 'app/static/projects/%s.png' % name
+        identicon.save_rendered_identicon(name, 24, temp_image_url)
+
+        new_project = models.Project(name=new_project_form.data['name'],
+                                     description=new_project_form.data['description'],
+                                     github_url=new_project_form.data['github_url'],
+                                     img_url=image_url)
+        db.session.add(new_project)
+        db.session.commit()
+        return redirect(url_for('projects'))
+
+    return render_template('projects.html', projects=projects, new_tag_form=new_tag_form, new_project_form=new_project_form)
 
 
 

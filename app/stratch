@@ -38,3 +38,19 @@ c_bounty = models.Bounty(title="teach Claire to code", description="Claire needs
                   {{ new_bounty_form.project(class_="form-control") }}
                 </div>
               </div>
+
+
+
+
+
+service_dr = models.Project(name="Service Doctor", github_url="https://github.com/bazaarvoice/service-doctor", img_url="doctor.png")
+db.session.add(service_dr)
+db.session.commit()
+
+flynn = models.Project(name="Flynn", github_url="https://github.com/bazaarvoice/flynn", img_url="flynn.png")
+db.session.add(flynn)
+db.session.commit()
+
+ubelt = models.Project(name="Utility Belt", github_url="https://github.com/bazaarvoice/utilitybelt", img_url="utilitybelt.png")
+db.session.add(ubelt)
+db.session.commit()
