@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Length
 
 class NewBountyForm(Form):
 
-    title = StringField('Overview', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
+    title = StringField('Overview', validators=[DataRequired(), Length(1,64)])
+    description = TextAreaField('Description', validators=[DataRequired(), Length(0,255)])
     project = SelectField('Project', coerce=int)
     submit = SubmitField("Save Bounty")
 
@@ -21,5 +21,13 @@ class SortBountyForm(Form):
 
 class NewTagForm(Form):
 
-    tag = StringField('New tag', validators=[DataRequired(), Length(2,15)])
+    tag = StringField('New tag', validators=[DataRequired(), Length(2,16)])
     submit = SubmitField("Add Tag")
+
+
+class NewProjectForm(Form):
+
+    name = StringField('Project Name', validators=[DataRequired(), Length(1,32)])
+    description = TextAreaField('Description', validators=[Length(0,255)])
+    github_url = StringField('Github Url', validators=[Length(0,128)])
+    submit = SubmitField("Save Bounty")
