@@ -32,6 +32,13 @@ def bounties():
 
     return render_template('bounties.html', bounties=bounties, projects=projects, new_bounty_form=new_bounty_form, sort_bounty_form=sort_bounty_form)
 
+@app.route('/bounties/<int:bounty_id>')
+def bounty_info(bounty_id):
+    bounty = models.Bounty.query.filter_by(id=bounty_id).first()
+    return "Info about bounty %s" % bounty.title
+
+
+
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     projects = models.Project.query.all()

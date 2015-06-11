@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% import 'macros.html'  as macros %}
+{% import 'bootstrap/wtf.html'  as wtf %}
+{% import 'bootstrap/utils.html'  as utils %}
+
+{% block menubar %}
+  <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
+    <li role="presentation">
+      <a href="{{ url_for('bounties') }}" aria-controls="home" role="tab">Open Bounties</a>
+    </li>
+    <li role="presentation" class="active">
+      <a href="{{ url_for('projects') }}" aria-controls="projects" role="tab">Projects</a>
+    </li>
+  </ul> 
+{% endblock %}
+
+{% block page_content %}
+<!-- Projects -->
+
+<div class="tab-pane fade in active" role="tabpanel" id="projects">
+  <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+
+    <div class="col-md-9" style="padding-left: 0px">
+      <div class="list-group" id="projectList">
+          {% for project in projects %}
+            {{ macros.project_row(project, loop.index0) }}
+          {% endfor %}
+      </div>
+    </div>
+
+    <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+        <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newProjectModal">
+          Add a new Project
+        </button>
+        <span style="margin-top: 12px">Tags:</span>
+      </div>
+
+  </div>
+</div>
+
+ <!-- New Label Modal -->
+  <div class="modal fade" id="newLabelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel">Add Project Tag</h4>
+        </div>
+        <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
+          <div class="modal-body">
+            {{ new_tag_form.hidden_tag() }}
+
+            {% for field, errors in new_tag_form.errors.iteritems() %}
+            <div class="alert alert-danger">
+                {{ new_tag_form[field].label }}: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+
+            <div class="form-group">
+              {{ new_tag_form.tag.label }}
+              {{ new_tag_form.tag(class_="form-control", placeholder="Enter new") }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            {{ new_tag_form.submit(class_="btn btn-primary") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Project Modal -->
+  <div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel">New Project</h4>
+        </div>
+        <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
+          <div class="modal-body">
+            {{ new_project_form.hidden_tag() }}
+
+            {% for field, errors in new_project_form.errors.iteritems() %}
+            <div class="alert alert-danger">
+                {{ new_project_form[field].label }}: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+
+            <div class="form-group">
+              {{ new_project_form.name.label }}
+              {{ new_project_form.name(class_="form-control", placeholder="Enter project name") }}
+            </div>
+            <div class="form-group">
+              {{ new_project_form.description.label }}
+              {{ new_project_form.description(class_="form-control", rows=6, placeholder="Enter detailed description") }}
+            </div>
+            <div class="form-group">
+              {{ new_project_form.github_url.label }}
+              {{ new_project_form.github_url(class_="form-control", rows=6, placeholder="Enter github url") }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            {{ new_project_form.submit(class_="btn btn-primary") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+
+  <script type="text/javascript">
+    $("a.tool-tip").tooltip();
+    $("span.project-tag").hover(
+       function(){ $(this).find(".remove-tag").show() },
+       function(){ $(this).find(".remove-tag").hide() }
+    );
+    $(".add-project-tag").click(function () {
+                  $("#addBounty").addClass("btn-info")
+                  $("#addBounty").html("Add to the Bounty")
+                });
+
+
+
+    var formErrors = {% if new_project_form.errors %}true{% else %}false{% endif %};
+
+    $(document).ready(function() {
+        if (formErrors) {
+            $('#newProjectModal').modal('show');
+        }
+    });
+  </script>
+{% endblock %}
