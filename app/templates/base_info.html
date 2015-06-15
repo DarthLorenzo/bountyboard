@@ -6,18 +6,8 @@
 {% block body %}
 	<div class="container theme-showcase" role="main">
 
-	  {% block header %}
-		  <div class="jumbotron">
-		    <img src="{{ url_for('static', filename='LOGO.png') }}" />
-		    <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
-		  </div>
-	  {% endblock %}
-	  
-	  {% block menubar %}{% endblock %}
-
-		<div class="tab-content">
-	  	{% block page_content %}{% endblock %}
-		</div>
+	{% block header %}{% endblock %}
+  	{% block page_content %}{% endblock %}
 	
 	</div>
 	{% block scripts %}
