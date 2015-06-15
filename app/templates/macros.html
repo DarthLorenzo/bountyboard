@@ -19,7 +19,7 @@
         <div id='add-pledge-{{index}}' class='row col-sm-7 collapse'>
           <div class="col-sm-9">
             <label for='bountyOffered-{{index}}' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue-{{index}}'>0</span></label>
-            <input id='bountyOffered-{{index}}' type='range' min=0 max=400 step=25 value=0 width=60%>
+            <input id='bountyOffered-{{index}}' class="slider" type='range' min=0 max=400 step=25 value=0>
           </div>
           <div class="col-sm-3">
             <a id='bountySubmit' class='btn btn-primary pull-right' style="display: inline-block;">Slap It On</a>
@@ -46,18 +46,23 @@
             <span class='h2'>{{ project.name }} <small><a href='{{ project.github_url }}'><span class="mega-octicon octicon-mark-github"></span></a></small></span>
           </div>
           <div class='col-md-6' align='right'>
-            <span class="label label-default project-tag" style="display: inline-block;">Python <a class='glyphicon glyphicon-remove remove-tag' style='display: none'></a></span>
-            <span class="label label-default add-project-tag" style="display: inline-block;" data-toggle="modal" data-target="#newLabelModal">
+            {% for tag in project.tags %}
+              <span class="label label-default project-tag" style="display: inline-block;">{{ tag.label }} <a class='glyphicon glyphicon-remove remove-tag' style='display: none' data-toggle="modal" data-target="#removeLabelModal" data-project='{{ project.name }}' data-tag='{{ tag.label }}'></a></span>
+            {% endfor %}
+            <span class="label label-default add-project-tag" style="display: inline-block;" data-toggle="modal" data-target="#newLabelModal" data-project-id='{{ project.id }}'>
               <a class='tool-tip' data-toggle="tooltip" data-placement="top" title="Add tag to Project">
                 <i class='glyphicon glyphicon-plus'></i>
               </a>
             </span>
-            <script>
-            </script> 
           </div>
         </div>
         <div class='list-group-item-text'>
           <p>{{project.description}}</p>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <a href='{{ url_for("project_info", project_id=project.id) }}' id='projectDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
+          </div>
         </div>
       </div>
     </div>
@@ -65,18 +70,16 @@
 </div>
 {% endmacro %}
 
-
-
-{% macro render_dialog(title, class='dialog') -%}
-    <div class="{{ class }}">
-        <h2>{{ title }}</h2>
-        <div class="contents">
-            {{ caller() }}
-        </div>
-    </div>
-{%- endmacro %}
-
-{% call render_dialog('Hello World') %}
-    This is a simple dialog rendered by using a macro and
-    a call block.
-{% endcall %}
+{% macro comment_row(comment, index) %}
+<div class="media">
+  <div class="media-left media-middle">
+    <a href="#">
+      <img class="media-object" src="..." alt="...">
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">Middle aligned media</h4>
+    ...
+  </div>
+</div>
+{% endmacro %}

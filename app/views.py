@@ -19,7 +19,7 @@ def bounties():
     sort_bounty_form = forms.SortBountyForm()
 
     new_bounty_form.project.choices = [(p.id, p.name) for p in projects]
-    sort_bounty_form.projectFilter.choices = [(p.id, p.name) for p in projects]
+    sort_bounty_form.project_filter.choices = [(p.id, p.name) for p in projects]
 
     if new_bounty_form.validate_on_submit():
         new_bounty = models.Bounty(project_id=new_bounty_form.data['project'],
@@ -35,18 +35,41 @@ def bounties():
 @app.route('/bounties/<int:bounty_id>')
 def bounty_info(bounty_id):
     bounty = models.Bounty.query.filter_by(id=bounty_id).first()
-    return "Info about bounty %s" % bounty.title
-
-
+    return render_template('bounty_info.html', bounty=bounty)
 
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     projects = models.Project.query.all()
+    tags = models.Tag.query.all()
+
     new_tag_form = forms.NewTagForm()
+    remove_tag_form = forms.RemoveTagForm()
     new_project_form = forms.NewProjectForm()
 
+    filter_tags_form = forms.FilterTagsForm()
+    filter_tags_form.require_tags.choices = [(t.id, t.label) for t in tags]
+    filter_tags_form.exclude_tags.choices = [(t.id, t.label) for t in tags]
+
     if new_tag_form.validate_on_submit():
-        return "YAY"
+        tag = models.Tag.query.filter_by(label=new_tag_form.data['new_tag']).first()
+        if not tag:
+            tag = models.Tag(label=new_tag_form.data['new_tag'])
+            db.session.add(tag)
+            db.session.commit()
+        new_tag_link = models.Tag_Link(tag_id=tag.id, project_id=new_tag_form.data['project_id'])
+
+        db.session.add(new_tag_link)
+        db.session.commit()
+        return redirect(url_for('projects'))
+
+    if remove_tag_form.validate_on_submit():
+        tag = models.Tag.query.filter_by(label=remove_tag_form.data['remove_tag']).first()
+        project = models.Project.query.filter_by(name=remove_tag_form.data['remove_tag_project']).first()
+        tag_link = models.Tag_Link.query.filter_by(tag_id=tag.id, project_id=project.id).first()
+        db.session.delete(tag_link)
+        db.session.commit()
+        return redirect(url_for('projects'))
+
 
     if new_project_form.validate_on_submit():
         name = new_project_form.data['name'].replace(" ", "")
@@ -62,7 +85,20 @@ def projects():
         db.session.commit()
         return redirect(url_for('projects'))
 
-    return render_template('projects.html', projects=projects, new_tag_form=new_tag_form, new_project_form=new_project_form)
+    if filter_tags_form.validate_on_submit():
+        projects = models.Project.query.filter(models.Project.tags.any(models.Tag.id.in_(filter_tags_form.data['require_tags'])))
+
+    return render_template('projects.html', projects=projects, tags=tags,
+                                            new_tag_form=new_tag_form, 
+                                            remove_tag_form=remove_tag_form, 
+                                            new_project_form=new_project_form,
+                                            filter_tags_form=filter_tags_form)
+
+@app.route('/projects/<int:project_id>')
+def project_info(project_id):
+    project = models.Project.query.filter_by(id=project_id).first()
+    return "<h1>Project details for %s</h1>" % project.name
+    # return render_template('project_info.html', project=project)
 
 
 

@@ -32,14 +32,33 @@
         <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newProjectModal">
           Add a new Project
         </button>
-        <span style="margin-top: 12px">Tags:</span>
+
+        <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
+          <div class="voffset5">
+            <span style="margin-top: 12px">Tags:</span>
+            {% for tag in tags %}
+              <span id="label-{{ tag.id }}" class="label label-default unselectable filter-project-tag" style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
+            {% endfor %}
+          </div>
+          <div class='row voffset4'>
+            <div class="col-md-12" align="right">
+              <span class="label label-success unselectable example-filter-tag" style="display: inline-block;">Require</span>
+              <span class="label label-warning unselectable example-filter-tag" style="display: inline-block;">Exclude</span>
+
+              {{ filter_tags_form.hidden_tag() }}
+              {{ filter_tags_form.require_tags(type="hidden", style="display: none") }}
+              {{ filter_tags_form.exclude_tags(type="hidden", style="display: none") }}
+              {{ filter_tags_form.do_filter(class_="btn btn-primary") }}
+            </div>
+          </div>
+        </form>
       </div>
 
   </div>
 </div>
 
  <!-- New Label Modal -->
-  <div class="modal fade" id="newLabelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="newLabelModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -57,13 +76,38 @@
             {% endfor %}
 
             <div class="form-group">
-              {{ new_tag_form.tag.label }}
-              {{ new_tag_form.tag(class_="form-control", placeholder="Enter new") }}
+              {{ new_tag_form.new_tag.label }}
+              {{ new_tag_form.new_tag(class_="form-control", placeholder="Enter new") }}
             </div>
+            {{ new_tag_form.new_tag_project_id(type="hidden") }}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            {{ new_tag_form.submit(class_="btn btn-primary") }}
+            {{ new_tag_form.submit_new_tag(class_="btn btn-primary") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remove Label Modal -->
+  <div class="modal fade" id="removeLabelModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel">Remove Project Tag</h4>
+        </div>
+        <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
+          <div class="modal-body">
+            {{ remove_tag_form.hidden_tag() }}
+            {{ remove_tag_form.remove_tag(type="hidden") }}
+            {{ remove_tag_form.remove_tag_project(type="hidden") }}
+            <span class='h4' id="remove-tag-prompt"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            {{ remove_tag_form.submit_remove_tag(class_="btn btn-primary") }}
           </div>
         </form>
       </div>
@@ -71,7 +115,7 @@
   </div>
 
   <!-- New Project Modal -->
-  <div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="newProjectModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -103,7 +147,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            {{ new_project_form.submit(class_="btn btn-primary") }}
+            {{ new_project_form.submit_project(class_="btn btn-primary") }}
           </div>
         </form>
       </div>
@@ -120,10 +164,52 @@
        function(){ $(this).find(".remove-tag").show() },
        function(){ $(this).find(".remove-tag").hide() }
     );
-    $(".add-project-tag").click(function () {
-                  $("#addBounty").addClass("btn-info")
-                  $("#addBounty").html("Add to the Bounty")
-                });
+
+    $('.add-project-tag').on('click', function (e) {
+      var projectId = $(this).attr('data-project-id');
+      $('#new_tag_project_id').val(projectId);
+      $('#new_tag').val("");
+    });
+
+    $('.filter-project-tag').on('click', function (e) {
+      if ($(this).hasClass("label-default")) {
+        $(this).removeClass("label-default")
+        $(this).addClass("label-success")
+      } else if ($(this).hasClass("label-success")) {
+        $(this).removeClass("label-success")
+        $(this).addClass("label-warning")
+      } else {
+        $(this).removeClass("label-warning")
+        $(this).addClass("label-default")
+      }
+    });
+
+    $('#do_filter').on('click', function (e) {
+      var require = []
+      var exclude = []
+
+      $('.filter-project-tag').each(function(i, obj) {
+        if ($(this).hasClass("label-success")) {
+          require.push($(this).attr('data-tag-id'))
+        } else if ($(this).hasClass("label-warning")) {
+          exclude.push($(this).attr('data-tag-id'))
+        }
+      });
+
+      $('#require_tags').val(require);
+      $('#exclude_tags').val(exclude);
+
+    });
+
+    
+
+    $('.remove-tag').on('click', function (e) {
+      var project = $(this).attr('data-project');
+      var tag = $(this).attr('data-tag');
+      $('#remove_tag_project').val(project);
+      $('#remove_tag').val(tag);
+      $('#remove-tag-prompt').text("Are you sure you want to remove the tag '" + tag + "' from the project '" + project + "'?");
+    });
 
 
 
