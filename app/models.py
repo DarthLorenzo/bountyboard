@@ -4,8 +4,10 @@ from app import db
 class User(db.Model):
     __tablename__ = 'users'
     id            = db.Column(db.Integer, primary_key=True)
+    username      = db.Column(db.String(64), unique=True)
     name          = db.Column(db.String(64))
-    email         = db.Column(db.String(64))
+    email         = db.Column(db.String(64), unique=True)
+    img_url       = db.Column(db.String(64))
     budget        = db.Column(db.Integer)
     following     = db.relationship('Project', secondary="follows")
 
@@ -19,7 +21,7 @@ class Project(db.Model):
     name          = db.Column(db.String(32), unique=True)
     description   = db.Column(db.String(255))
     github_url    = db.Column(db.String(128), unique=True)
-    img_url       = db.Column(db.String(128))
+    img_url       = db.Column(db.String(64))
     bounties      = db.relationship("Bounty", backref=db.backref("project"))
     tags          = db.relationship("Tag", secondary="tag_links",
                  backref=db.backref("projects", lazy="dynamic"))

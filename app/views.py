@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, abort, flash
 from flask.ext.bootstrap import Bootstrap
 
-from app import app, db, models, forms
+from app import app, db, models, forms, lm
 import identicon
 # from .forms import NewBountyForm, SortBountyForm, NewTagForm
 bootstrap = Bootstrap(app)
@@ -9,6 +9,22 @@ bootstrap = Bootstrap(app)
 @app.route('/')
 def index():
     return redirect(url_for('bounties'))
+
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    login_form = forms.LoginForm()
+    if login_form.validate_on_submit():
+        login_user(user)
+        flash('Logged in successfully.')
+        next = request.args.get('next')
+        if not next_is_valid(next):
+            return abort(400)
+        return redirect(next or flask.url_for('index'))
+    return render_template('login.html', login_form=login_form)
 
 @app.route('/bounties', methods=['GET', 'POST'])
 def bounties():
@@ -56,7 +72,7 @@ def projects():
             tag = models.Tag(label=new_tag_form.data['new_tag'])
             db.session.add(tag)
             db.session.commit()
-        new_tag_link = models.Tag_Link(tag_id=tag.id, project_id=new_tag_form.data['project_id'])
+        new_tag_link = models.Tag_Link(tag_id=tag.id, project_id=new_tag_form.data['new_tag_project_id'])
 
         db.session.add(new_tag_link)
         db.session.commit()

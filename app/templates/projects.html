@@ -29,7 +29,7 @@
     </div>
 
     <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
-        <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newProjectModal">
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="add-new-project" style="margin-bottom: 24px" data-toggle="modal" data-target="#newProjectModal">
           Add a new Project
         </button>
 
@@ -133,16 +133,16 @@
             {% endfor %}
 
             <div class="form-group">
-              {{ new_project_form.name.label }}
-              {{ new_project_form.name(class_="form-control", placeholder="Enter project name") }}
+              {{ new_project_form.new_project_name.label }}
+              {{ new_project_form.new_project_name(class_="form-control", placeholder="Enter project name") }}
             </div>
             <div class="form-group">
-              {{ new_project_form.description.label }}
-              {{ new_project_form.description(class_="form-control", rows=6, placeholder="Enter detailed description") }}
+              {{ new_project_form.new_project_description.label }}
+              {{ new_project_form.new_project_description(class_="form-control", rows=6, placeholder="Enter detailed description") }}
             </div>
             <div class="form-group">
-              {{ new_project_form.github_url.label }}
-              {{ new_project_form.github_url(class_="form-control", rows=6, placeholder="Enter github url") }}
+              {{ new_project_form.new_project_github_url.label }}
+              {{ new_project_form.new_project_github_url(class_="form-control", rows=6, placeholder="Enter github url") }}
             </div>
           </div>
           <div class="modal-footer">
@@ -199,6 +199,11 @@
       $('#require_tags').val(require);
       $('#exclude_tags').val(exclude);
 
+    });
+
+    $('.add-new-project').on('click', function (e) {
+      $('#new_project_name').val("");
+      $('#new_project_description').val("");
     });
 
     

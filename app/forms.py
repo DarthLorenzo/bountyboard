@@ -34,13 +34,27 @@ class RemoveTagForm(Form):
 
 class NewProjectForm(Form):
 
-    name = StringField('Project Name', validators=[DataRequired(), Length(1,32)])
-    description = TextAreaField('Description', validators=[Length(0,255)])
-    github_url = StringField('Github Url', validators=[Length(0,128)])
-    submit_project = SubmitField("Save Bounty")
+    new_project_name = StringField('Project Name', validators=[DataRequired(), Length(1,32)])
+    new_project_description = TextAreaField('Description', validators=[Length(0,255)])
+    new_project_github_url = StringField('Github Url', validators=[Length(0,128)])
+    submit_project = SubmitField("Save Project")
 
 class FilterTagsForm(Form):
 
     require_tags = SelectMultipleField(coerce=int)
     exclude_tags = SelectMultipleField(coerce=int)
     do_filter = SubmitField("Filter by Tags")
+
+
+class NewUserForm(Form):
+
+    name = StringField('Your Name', validators=[DataRequired(), Length(1,64)])
+    user_name = StringField('Username', validators=[DataRequired(), Length(1,64)])
+    email = StringField('Github Url', validators=[DataRequired(), Length(0,128)])
+    register_user = SubmitField("Register")
+
+
+class LoginForm(Form):
+
+    user_name = StringField('Username', validators=[DataRequired(), Length(0,64)])
+    do_login = SubmitField("Login")
