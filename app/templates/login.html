@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block body_attribs %}role="document"{% endblock %}
+
+{% block body %}
+  <div class="container theme-showcase" role="main">
+
+    {% block header %}
+      <div class="jumbotron">
+        <img src="{{ url_for('static', filename='LOGO.png') }}" />
+        <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
+        <div class="page-header">
+          <h2>Login</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            {{ login_form.user_name.label }}
+            {{ login_form.user_name(class_="form-control", style="display: inline-block;") }}
+          </div>
+
+          {{ login_form.do_login(class_="btn btn-primary") }}    
+        </div>
+      </div>
+    {% endblock %}
+    
+    {% block menubar %}{% endblock %}
+
+    <div class="tab-content">
+      {% block page_content %}{% endblock %}
+    </div>
+  
+  </div>
+
+  {% block scripts %}
+    {{ super() }}
+  {% endblock %}
+
+{% endblock %}

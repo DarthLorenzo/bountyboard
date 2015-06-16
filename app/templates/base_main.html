@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block body_attribs %}role="document"{% endblock %}
+
+{% block body %}
+	<div class="container theme-showcase" role="main">
+
+	  {% block header %}
+		  <div class="jumbotron">
+		    <img src="{{ url_for('static', filename='LOGO.png') }}" />
+		    <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
+		  </div>
+	  {% endblock %}
+	  
+	  {% block menubar %}
+	  <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
+	    <li id="bounty-tab" role="presentation">
+	      <a href="{{ url_for('bounties') }}" aria-controls="bounties" role="tab">Open Bounties</a>
+	    </li>
+	    <li id="project-tab" role="presentation" >
+	      <a href="{{ url_for('projects') }}" aria-controls="projects" role="tab">Projects</a>
+	    </li>
+	  </ul> 
+	  {% endblock %}
+
+		<div class="tab-content">
+	  	{% block page_content %}
+	  	<!-- Modal -->
+
+
+
+	  	{% endblock %}
+		</div>
+	
+	</div>
+
+	{% block scripts %}
+	  {{ super() }}
+	{% endblock %}
+
+{% endblock %}
+
+

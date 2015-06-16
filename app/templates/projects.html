@@ -1,18 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base_main.html' %}
 {% import 'macros.html'  as macros %}
 {% import 'bootstrap/wtf.html'  as wtf %}
 {% import 'bootstrap/utils.html'  as utils %}
 
-{% block menubar %}
-  <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
-    <li role="presentation">
-      <a href="{{ url_for('bounties') }}" aria-controls="home" role="tab">Open Bounties</a>
-    </li>
-    <li role="presentation" class="active">
-      <a href="{{ url_for('projects') }}" aria-controls="projects" role="tab">Projects</a>
-    </li>
-  </ul> 
-{% endblock %}
 
 {% block page_content %}
 <!-- Projects -->
@@ -221,9 +211,12 @@
     var formErrors = {% if new_project_form.errors %}true{% else %}false{% endif %};
 
     $(document).ready(function() {
-        if (formErrors) {
-            $('#newProjectModal').modal('show');
-        }
+
+      $("#project-tab").addClass("active");
+
+      if (formErrors) {
+          $('#newProjectModal').modal('show');
+      }
     });
   </script>
 {% endblock %}

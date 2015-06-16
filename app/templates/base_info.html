@@ -1,4 +1,4 @@
-{% extends 'bootstrap/base.html' %}
+{% extends 'base.html' %}
 
 
 {% block body_attribs %}role="document"{% endblock %}
@@ -11,17 +11,11 @@
 	
 	</div>
 	{% block scripts %}
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	  <script async src="//utilities.qa.us-east-1.nexus.bazaarvoice.com/belt/belt.js"></script>
-	  <script async src="{{ url_for('static', filename='slider/js/bootstrap-slider.js') }}"></script>
+  {{ super() }}
 	{% endblock %}
 {% endblock %}
 
 {% block styles %}
   {{ super() }}
-	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='octicons/octicons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='slider/css/slider.css') }}">
 {% endblock %}
 
