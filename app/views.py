@@ -88,14 +88,14 @@ def projects():
 
 
     if new_project_form.validate_on_submit():
-        name = new_project_form.data['name'].replace(" ", "")
+        name = new_project_form.data['new_project_name'].replace(" ", "")
         image_url = 'projects/%s.png' % name
         temp_image_url = 'app/static/projects/%s.png' % name
         identicon.save_rendered_identicon(name, 24, temp_image_url)
 
-        new_project = models.Project(name=new_project_form.data['name'],
-                                     description=new_project_form.data['description'],
-                                     github_url=new_project_form.data['github_url'],
+        new_project = models.Project(name=new_project_form.data['new_project_name'],
+                                     description=new_project_form.data['new_project_description'],
+                                     github_url=new_project_form.data['new_project_github_url'],
                                      img_url=image_url)
         db.session.add(new_project)
         db.session.commit()
