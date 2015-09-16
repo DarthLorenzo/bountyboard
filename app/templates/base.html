@@ -13,15 +13,15 @@
 	</div>
 	{% block scripts %}
   	{{ super() }}
-	  <script async src="//utilities.qa.us-east-1.nexus.bazaarvoice.com/belt/belt.js"></script>
-	  <script async src="{{ url_for('static', filename='slider/js/bootstrap-slider.js') }}"></script>
+	    <script async src="//utilities.qa.us-east-1.nexus.bazaarvoice.com/belt/belt.js"></script>
+        <script type='text/javascript' src="{{ url_for('static', filename='slider/js/bootstrap-slider.js') }}"></script>
 	{% endblock %}
 {% endblock %}
 
 {% block styles %}
   {{ super() }}
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='octicons/octicons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='slider/css/slider.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='octicons/octicons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='slider/css/bootstrap-slider.css') }}">
 {% endblock %}
 

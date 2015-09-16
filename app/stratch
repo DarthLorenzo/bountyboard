@@ -4,12 +4,12 @@ jesse = models.User(name="Jesse", email="jesse.vera@bazaarvoice.com", budget=100
 db.session.add(jesse)
 db.session.commit()
 
-bountyboard = models.Project(name="Bounty Board", github_url="https://github.com/DarthLorenzo/bountyboard", img_url="bountyboard.png")
+bountyboard = models.Project(name="Bounty Board", github_url="https://github.com/DarthLorenzo/bountyboard", img_url="projects/bountyboard.png")
 db.session.add(bountyboard)
 db.session.commit()
 
 
-hubble = models.Project(name="Hubble", github_url="https://github.com/bazaarvoice/hubble", img_url="flynn.png")
+hubble = models.Project(name="Hubble", github_url="https://github.com/bazaarvoice/hubble", img_url="projects/flynn.png")
 
 j_bounty = models.Bounty(project_id=bountyboard.id, title="make the bountyboard", description="The bounty board is just slightly more than an idea right now, finish it", active=True)
 
@@ -43,14 +43,14 @@ c_bounty = models.Bounty(title="teach Claire to code", description="Claire needs
 
 
 
-service_dr = models.Project(name="Service Doctor", github_url="https://github.com/bazaarvoice/service-doctor", img_url="doctor.png")
+service_dr = models.Project(name="Service Doctor", github_url="https://github.com/bazaarvoice/service-doctor", img_url="projects/doctor.png")
 db.session.add(service_dr)
 db.session.commit()
 
-flynn = models.Project(name="Flynn", github_url="https://github.com/bazaarvoice/flynn", img_url="flynn.png")
+flynn = models.Project(name="Flynn", github_url="https://github.com/bazaarvoice/flynn", img_url="projects/flynn.png")
 db.session.add(flynn)
 db.session.commit()
 
-ubelt = models.Project(name="Utility Belt", github_url="https://github.com/bazaarvoice/utilitybelt", img_url="utilitybelt.png")
+ubelt = models.Project(name="Utility Belt", github_url="https://github.com/bazaarvoice/utilitybelt", img_url="projects/utilitybelt.png")
 db.session.add(ubelt)
 db.session.commit()

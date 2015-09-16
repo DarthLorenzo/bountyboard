@@ -10,11 +10,11 @@
     <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
       <div class="col-md-9" style="padding-left: 0px">
-          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            {% for bounty in bounties %}
-              {{ macros.bounty_row(bounty, loop.index0) }}
-            {% endfor %}
-          </div>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          {% for bounty in bounties %}
+          {{ macros.bounty_row(bounty, loop.index0) }}
+          {% endfor %}
+        </div>
       </div>
 
       <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
@@ -23,7 +23,7 @@
         </button>
         {# wtf.quick_form(sort_bounty_form) #}
 
-        
+
         <span>Sort by:</span>
         <select class="form-control" id="sort" onchange="sort();">
           <option value="descDate">Newest first</option>
@@ -33,12 +33,12 @@
         <br>
         <span style="margin-top: 12px">Search by:</span>
         <div class="row" style="margin-left: 5px; margin-top: 12px; margin-bottom: 12px">
-            <label>Project</label>
-            <input class="input-sm pull-right" type="text">
+          <label>Project</label>
+          <input class="input-sm pull-right" type="text">
         </div>
         <div class="row" style="margin-left: 5px">
-            <label>Language</label>
-            <input class="input-sm pull-right" type="text">
+          <label>Language</label>
+          <input class="input-sm pull-right" type="text">
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title" id="myModalLabel">New Bounty</h4>
+          <h2 class="modal-title" id="myModalLabel">New Bounty</h2>
         </div>
         <form role="form" id="submitForm", action="{{ url_for('bounties') }}", method="POST">
           <div class="modal-body">
@@ -59,7 +59,7 @@
 
             {% for field, errors in new_bounty_form.errors.iteritems() %}
             <div class="alert alert-danger">
-                {{ new_bounty_form[field].label }}: {{ ', '.join(errors) }}
+              {{ new_bounty_form[field].label }}: {{ ', '.join(errors) }}
             </div>
             {% endfor %}
 
@@ -72,9 +72,9 @@
               {{ new_bounty_form.description(class_="form-control", rows=6, placeholder="Enter detailed description") }}
             </div>
             <div class="row">
-              <div class="form-group col-sm-6 pull-left">
-                <label for="bountyOffered">Bounty Offered: <span id="bountyValue">0</span></label>
-                <input type="range" min=0 step=25 value=0 max=800 id="bountyOffered">
+              <div class="form-group col-sm-6 pull-left bounty-input">
+                <input id="bountyOffered-initial" class="bounty-slider" data-label-id="bountyValue-initial" data-slider-id='bountyOffered-initial' type="text" data-slider-min="0" data-slider-max="300" data-slider-step="10" data-slider-value="100"/>
+                <label for="bountyOffered-initial">Bounty Offered: <span id="bountyValue-initial">100</span></label>
               </div>
               <div class="form-group col-sm-6">
                 {{ new_bounty_form.project.label }}
@@ -95,21 +95,39 @@
 {% endblock %}
 
 {% block scripts %}
-  {{ super() }}
+{{ super() }}
 
-  <script type="text/javascript">
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
+<script type="text/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 
-    var formErrors = {% if new_bounty_form.errors %}true{% else %}false{% endif %};
+  var formErrors = {% if new_bounty_form.errors %}true{% else %}false{% endif %};
 
-    $(document).ready(function() {
-      $("#bounty-tab").addClass("active");
+  $(document).ready(function() {
 
-      if (formErrors) {
-          $('.modal').modal('show');
+    $("#bounty-tab").addClass("active");
+
+    $('.bounty-slider').slider({
+      formatter: function(value) {
+        return 'Current value: ' + value;
       }
     });
-  </script>
+
+    $('.bounty-slider').on("slide", function(evt){
+      $("#"+this.getAttribute("data-label-id")).text(evt.value)
+
+    });
+
+    $('.bounty-input').on("click", function(evt){
+      var inputElem = this.getElementsByClassName('bounty-slider')[0]
+      $("#"+inputElem.getAttribute('data-label-id')).text(inputElem.getAttribute('value'))
+
+    });
+
+    if (formErrors) {
+      $('.modal').modal('show');
+    }
+  });
+</script>
 {% endblock %}

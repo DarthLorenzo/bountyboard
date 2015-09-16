@@ -11,10 +11,15 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+app.db
 
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
+
+# IntelliJ folder
+.idea
+*.iml
 
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
