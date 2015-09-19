@@ -12,7 +12,7 @@
       <div class="col-md-9" style="padding-left: 0px">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
           {% for bounty in bounties %}
-          {{ macros.bounty_row(bounty, loop.index0) }}
+          {{ macros.bounty_row(slap_on_bounty_form, bounty, loop.index0) }}
           {% endfor %}
         </div>
       </div>
@@ -52,7 +52,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h2 class="modal-title" id="myModalLabel">New Bounty</h2>
         </div>
-        <form role="form" id="submitForm", action="{{ url_for('bounties') }}", method="POST">
+        <form role="form" id="submitForm" action="{{ url_for('bounties') }}" method="POST">
           <div class="modal-body">
             {# wtf.quick_form(new_bounty_form) #}
             {{ new_bounty_form.hidden_tag() }}
@@ -73,7 +73,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 pull-left bounty-input">
-                <input id="bountyOffered-initial" class="bounty-slider" data-label-id="bountyValue-initial" data-slider-id='bountyOffered-initial' type="text" data-slider-min="0" data-slider-max="300" data-slider-step="10" data-slider-value="100"/>
+                <input id="bountyOffered-initial" name="bounty_amount" class="bounty-slider" data-label-id="bountyValue-initial" data-slider-id='bountyOffered-initial' type="text" data-slider-min="0" data-slider-max={{ g.user.budget }} data-slider-step="10" data-slider-value="100"/>
                 <label for="bountyOffered-initial">Bounty Offered: <span id="bountyValue-initial">100</span></label>
               </div>
               <div class="form-group col-sm-6">

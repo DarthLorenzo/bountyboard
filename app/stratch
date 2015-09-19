@@ -16,6 +16,13 @@ j_bounty = models.Bounty(project_id=bountyboard.id, title="make the bountyboard"
 
 claire = models.User(name="Claire", email="claire.cahill@bazaarvoice.com", budget=1000)
 
+test = models.User(name="test", email="test", username="test", budget=1000)
+db.session.add(test)
+db.session.commit()
+
+ravi = models.User(name="ravi", email="ravi", username="rpatel", budget=1000)
+db.session.add(ravi)
+db.session.commit()
 
 c_bounty = models.Bounty(title="teach Claire to code", description="Claire needs to learn python before the next hackathonn", active=True)
 

@@ -9,11 +9,25 @@ class User(db.Model):
     email         = db.Column(db.String(64), unique=True)
     img_url       = db.Column(db.String(64))
     budget        = db.Column(db.Integer)
-    following     = db.relationship('Project', secondary="follows")
+    following     = db.relationship('Project', secondary="follows",
+                        backref=db.backref("followers", lazy="dynamic"))
+    watching      = db.relationship('Bounty', secondary="watches",
+                        backref=db.backref("watchers", lazy="dynamic"))
 
     def __repr__(self):
         return '<User %r>' % (self.name)
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        try:
+            return unicode(self.id)
+        except NameError:
+            return str(self.id)
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -22,12 +36,13 @@ class Project(db.Model):
     description   = db.Column(db.String(255))
     github_url    = db.Column(db.String(128), unique=True)
     img_url       = db.Column(db.String(64))
-    bounties      = db.relationship("Bounty", backref=db.backref("project"))
+    bounties      = db.relationship("Bounty",
+                        backref=db.backref("project"))
     tags          = db.relationship("Tag", secondary="tag_links",
-                 backref=db.backref("projects", lazy="dynamic"))
+                        backref=db.backref("projects", lazy="dynamic"))
 
     contributors  = db.relationship("User", secondary="contributors",
-                 backref=db.backref("worked_on", lazy="dynamic"))
+                        backref=db.backref("worked_on", lazy="dynamic"))
 
     def __repr__(self):
         return '<Project %r>' % (self.name)
@@ -74,6 +89,11 @@ class Follow(db.Model):
     user_id       = db.Column(db.Integer, db.ForeignKey('users.id'))
     project_id    = db.Column(db.Integer, db.ForeignKey('projects.id'))
 
+class Watches(db.Model):
+    __tablename__ = 'watches'
+    id            = db.Column(db.Integer, primary_key=True)
+    user_id       = db.Column(db.Integer, db.ForeignKey('users.id'))
+    bounty_id     = db.Column(db.Integer, db.ForeignKey('bounties.id'))
 
 class Contributor(db.Model):
     __tablename__ = 'contributors'

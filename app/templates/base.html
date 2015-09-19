@@ -5,11 +5,11 @@
 {% block body %}
 
 	  {% block header %}{% endblock %}
-	  
+
 	  {% block menubar %}{% endblock %}
 
   	{% block page_content %}{% endblock %}
-	
+
 	</div>
 	{% block scripts %}
   	{{ super() }}
@@ -22,6 +22,7 @@
   {{ super() }}
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='octicons/octicons.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='slider/css/bootstrap-slider.css') }}">
 {% endblock %}
 

@@ -14,7 +14,7 @@
   <div class='row col-md-12'>
     <div class='col-md-1' align='center'>
       <div class="row">
-      <img src='{{ url_for("static", filename=bounty.project.img_url) }}'></img>
+      <img src='{{ url_for("static", filename=bounty.project.img_url) }}'>
       </div>
       <div class="row">
         <span>{{ bounty.project.name }}</span>
@@ -22,7 +22,7 @@
     </div>
 
     <div class='col-md-8'>
-      <span class='h2'>{{ bounty.title }}<br /><small>{{ bounty.description }}</small><span> 
+      <span class='h2'>{{ bounty.title }}  <span id='bountyLable' class='badge'>{{ bounty.pledges|sum(attribute="amount") }}</span> <br /><small>{{ bounty.description }}</small><span>
     </div>
   </div>
 {% endblock %}
@@ -35,20 +35,22 @@
     <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
       <div class="col-md-9" style="padding-left: 0px">
-          <div class="panel-group" id="accordion">
-            {% for comment in comments %}
-              {{ macros.comment_row(comment) }}
-            {% endfor %}
-          </div>
-          <div class='row'>
-          </div>
+        <div class="panel-group" id="accordion">
+          {% for comment in comments %}
+            {{ macros.comment_row(comment) }}
+          {% endfor %}
+        </div>
+        <div class='row'>
+        </div>
       </div>
 
-      <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+      <div class="well input-group col-md-offset-9 col-md-3" style="padding: 19px" style="padding-right: 0px">
         <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newBountyModal">
           Offer a Bounty
         </button>
-        
+        {% for pledge in bounty.pledges %}
+          {{ macros.pledge_row(pledge,users) }}
+        {% endfor %}
       </div>
     </div>
   </div>

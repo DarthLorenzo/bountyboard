@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, SelectField, SelectMultipleField, SubmitField, IntegerField
+from wtforms import StringField, TextAreaField, SelectField, SelectMultipleField, SubmitField, IntegerField, BooleanField
 from wtforms.validators import DataRequired, Length
 
 class NewBountyForm(Form):
@@ -7,8 +7,13 @@ class NewBountyForm(Form):
     title = StringField('Overview', validators=[DataRequired(), Length(1,64)])
     description = TextAreaField('Description', validators=[DataRequired(), Length(0,255)])
     project = SelectField('Project', coerce=int)
+    bounty_amount=IntegerField('Bounty Offered', validators=[DataRequired()])
     submit_bounty = SubmitField("Save Bounty")
 
+class SlapOnBountyForm(Form):
+    bounty_addition=IntegerField('Bounty Offered', validators=[DataRequired()])
+    bounty_id=IntegerField('Bounty ID', validators=[DataRequired(), Length(2,16)])
+    slap_on_bounty = SubmitField("Slap It On")
 
 class SortBountyForm(Form):
 
@@ -48,13 +53,19 @@ class FilterTagsForm(Form):
 
 class NewUserForm(Form):
 
-    name = StringField('Your Name', validators=[DataRequired(), Length(1,64)])
+    name = StringField('Full Name', validators=[DataRequired(), Length(1,64)])
     user_name = StringField('Username', validators=[DataRequired(), Length(1,64)])
-    email = StringField('Github Url', validators=[DataRequired(), Length(0,128)])
+    email = StringField('Email', validators=[DataRequired(), Length(0,128)])
     register_user = SubmitField("Register")
 
+class ForgotUsnernameForm(Form):
+
+    email = StringField('Email', validators=[DataRequired(), Length(1,64)])
+    find_username = SubmitField("Find Username")
 
 class LoginForm(Form):
 
     user_name = StringField('Username', validators=[DataRequired(), Length(0,64)])
+    email = StringField('Email', validators=[DataRequired()])
+    remember_me = BooleanField('remember_me', default=False)
     do_login = SubmitField("Login")

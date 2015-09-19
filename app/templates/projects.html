@@ -5,20 +5,20 @@
 
 
 {% block page_content %}
-<!-- Projects -->
+  <!-- Projects -->
 
-<div class="tab-pane fade in active" role="tabpanel" id="projects">
-  <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
+  <div class="tab-pane fade in active" role="tabpanel" id="projects">
+    <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
-    <div class="col-md-9" style="padding-left: 0px">
-      <div class="list-group" id="projectList">
+      <div class="col-md-9" style="padding-left: 0px">
+        <div class="list-group" id="projectList">
           {% for project in projects %}
             {{ macros.project_row(project, loop.index0) }}
           {% endfor %}
+        </div>
       </div>
-    </div>
 
-    <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
+      <div class="well input-group col-md-3" style="padding: 19px" style="padding-right: 0px">
         <button type="button" class="btn btn-primary btn-lg btn-block" id="add-new-project" style="margin-bottom: 24px" data-toggle="modal" data-target="#newProjectModal">
           Add a new Project
         </button>
@@ -44,25 +44,25 @@
         </form>
       </div>
 
+    </div>
   </div>
-</div>
 
- <!-- New Label Modal -->
+  <!-- New Label Modal -->
   <div class="modal fade" id="newLabelModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title" id="myModalLabel">Add Project Tag</h4>
+          <h2 class="modal-title" id="myModalLabel">Add Project Tag</h2>
         </div>
         <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
           <div class="modal-body">
             {{ new_tag_form.hidden_tag() }}
 
             {% for field, errors in new_tag_form.errors.iteritems() %}
-            <div class="alert alert-danger">
+              <div class="alert alert-danger">
                 {{ new_tag_form[field].label }}: {{ ', '.join(errors) }}
-            </div>
+              </div>
             {% endfor %}
 
             <div class="form-group">
@@ -86,7 +86,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title" id="myModalLabel">Remove Project Tag</h4>
+          <h2 class="modal-title" id="myModalLabel">Remove Project Tag</h2>
         </div>
         <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
           <div class="modal-body">
@@ -110,16 +110,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title" id="myModalLabel">New Project</h4>
+          <h2 class="modal-title" id="myModalLabel">New Project</h2>
         </div>
-        <form role="form" id="submitForm", action="{{ url_for('projects') }}", method="POST">
+        <form role="form" id="submitForm" action="{{ url_for('projects') }}" method="POST">
           <div class="modal-body">
             {{ new_project_form.hidden_tag() }}
 
             {% for field, errors in new_project_form.errors.iteritems() %}
-            <div class="alert alert-danger">
+              <div class="alert alert-danger">
                 {{ new_project_form[field].label }}: {{ ', '.join(errors) }}
-            </div>
+              </div>
             {% endfor %}
 
             <div class="form-group">
@@ -196,7 +196,7 @@
       $('#new_project_description').val("");
     });
 
-    
+
 
     $('.remove-tag').on('click', function (e) {
       var project = $(this).attr('data-project');

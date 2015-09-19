@@ -4,40 +4,45 @@
 {% block body_attribs %}role="document"{% endblock %}
 
 {% block body %}
-	<div class="container theme-showcase" role="main">
+  <div class="container theme-showcase" role="main">
 
-	  {% block header %}
-		  <div class="jumbotron">
-		    <img src="{{ url_for('static', filename='LOGO.png') }}" />
-		    <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
-		  </div>
-	  {% endblock %}
-	  
-	  {% block menubar %}
-	  <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
-	    <li id="bounty-tab" role="presentation">
-	      <a href="{{ url_for('bounties') }}" aria-controls="bounties" role="tab">Open Bounties</a>
-	    </li>
-	    <li id="project-tab" role="presentation" >
-	      <a href="{{ url_for('projects') }}" aria-controls="projects" role="tab">Projects</a>
-	    </li>
-	  </ul> 
-	  {% endblock %}
+    {% block header %}
+      {% if g.user.is_authenticated() %}
+        <p class="text-right">Logged in as {{ g.user.name }} <a href="logout">(logout)</a></p>
+      {% else %}
+        <p class="text-right"><a href="login">Login</p></a>
+      {% endif %}
+      <div class="jumbotron">
+        <img src="{{ url_for('static', filename='LOGO.png') }}" />
+        <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
+      </div>
+    {% endblock %}
 
-		<div class="tab-content">
-	  	{% block page_content %}
-	  	<!-- Modal -->
+    {% block menubar %}
+      <ul class="nav nav-tabs" role="tablist" style="margin-bottom:20px">
+        <li id="bounty-tab" role="presentation">
+          <a href="{{ url_for('bounties') }}" aria-controls="bounties" role="tab">Open Bounties</a>
+        </li>
+        <li id="project-tab" role="presentation" >
+          <a href="{{ url_for('projects') }}" aria-controls="projects" role="tab">Projects</a>
+        </li>
+      </ul>
+    {% endblock %}
+
+    <div class="tab-content">
+      {% block page_content %}
+        <!-- Modal -->
 
 
 
-	  	{% endblock %}
-		</div>
-	
-	</div>
+      {% endblock %}
+    </div>
 
-	{% block scripts %}
-	  {{ super() }}
-	{% endblock %}
+  </div>
+
+  {% block scripts %}
+    {{ super() }}
+  {% endblock %}
 
 {% endblock %}
 

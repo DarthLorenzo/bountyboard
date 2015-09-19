@@ -1,84 +1,98 @@
-{% macro bounty_row(bounty, index) %}
-<div class='panel panel-default'>
-  <div class='panel-heading' role="tab" id="heading{{index}}">
-    <a class='h4' data-toggle='collapse' data-parent='#accordion' href='#bounty-details-{{index}}' aria-expanded="true" aria-controls="bounty-details-{{index}}">{{bounty.title}}</a>
-    <span id='bountyLable' class='badge' style='background-color: #00ae97'>{{ bounty.pledges|sum(attribute="amount") }}</span>
-    <div class='col-md-1 pull-right'>
-      <a class='pull-right'>
-        <img src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -6px; width:32px; height:32px' data-toggle="tooltip" title="{{ bounty.project.name }}"/>
-      </a>
+{% macro bounty_row(slap_on_bounty_form,bounty, index) %}
+  <div class='panel panel-default'>
+    <div class='panel-heading' role="tab" id="heading{{index}}">
+      <a class='h4' data-toggle='collapse' data-parent='#accordion' href='#bounty-details-{{index}}' aria-expanded="true" aria-controls="bounty-details-{{index}}">{{bounty.title}}</a>
+      <span id='bountyLable' class='badge'>{{ bounty.pledges|sum(attribute="amount") }}</span>
+      <div class='col-md-1 pull-right'>
+        <a class='pull-right'>
+          <img src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -6px; width:32px; height:32px' data-toggle="tooltip" title="{{ bounty.project.name }}"/>
+        </a>
+      </div>
     </div>
-  </div>
-  <div id='bounty-details-{{index}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index}}">
-    <div class='panel-body'>
-      <p>{{bounty.description}}</p>
-      <div class='row col-md-12'>
-        <div class='col-sm-3'>
-          <a id='addBounty' class='btn btn-info' data-toggle="collapse" data-target="#add-pledge-{{index}}">Add to the Bounty</a>
-        </div>
-        <div id='add-pledge-{{index}}' class='row col-sm-7 collapse'>
-          <div class="col-sm-9 bounty-input">
-            <input id="bountyOffered-{{index}}" class="bounty-slider" data-slider-id='bountyOffered-{{index}}' data-label-id='bountyValue-{{index}}' type="text" data-slider-min="0" data-slider-max="300" data-slider-step="10" data-slider-value="100"/>
-            <label for='bountyOffered-{{index}}' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue-{{index}}'>100</span></label>
+    <div id='bounty-details-{{index}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index}}">
+      <div class='panel-body'>
+        <p>{{bounty.description}}</p>
+        <div class='row col-md-12'>
+          <div class='col-sm-3'>
+            <a id='addBounty' class='btn btn-info' data-toggle="collapse" data-target="#add-pledge-{{index}}">Add to the Bounty</a>
           </div>
-          <div class="col-sm-3">
-            <a id='bountySubmit' class='btn btn-primary pull-right' style="display: inline-block;">Slap It On</a>
-          </div>
+          <form role="form" id="submitForm" action="{{ url_for('slap_it_on') }}" method="POST">
+            <div id='add-pledge-{{index}}' class='row col-sm-7 collapse'>
+              <div class="col-sm-9 bounty-input">
+                <input name="bounty_addition" id="bountyOffered-{{index}}" class="bounty-slider" data-slider-id='bountyOffered-{{index}}' data-label-id='bountyValue-{{index}}' type="text" data-slider-min="0" data-slider-max={{ g.user.budget }} data-slider-step="10" data-slider-value="100"/>
+                <input type="hidden" name="bounty_id" id="bounty_id" value="{{ bounty.id }}"/>
+                <label for='bountyOffered-{{index}}' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue-{{index}}'>100</span></label>
+              </div>
+              <div class="col-sm-3">
+                {{ slap_on_bounty_form.slap_on_bounty(class='btn btn-primary pull-right', style="display: inline-block;") }}
+              </div>
+            </div>
+          </form>
+
+          <a href='{{ url_for("bounty_info", bounty_id=bounty.id) }}' id='bountyDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
         </div>
-        <a href='{{ url_for("bounty_info", bounty_id=bounty.id) }}' id='bountyDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
       </div>
     </div>
   </div>
-</div>
 {% endmacro %}
 
 {% macro project_row(project, index) %}
-<div class='row-fluid'>
-  <div class='list-group-item'>
-    <div class='row'>
-      <div class='col-md-2 pull-left'>
-        <img class='media-object' data-source='holder.js/128x128' alt='128x128' src='{{ url_for("static", filename=project.img_url) }}' style='width:128px; height:128px'/>
-    </div>
-    <div class='col-md-10'>
+  <div class='row-fluid'>
+    <div class='list-group-item'>
       <div class='row'>
-        <div class='col-md-6'>
-          <span class='h2'>{{ project.name }} <small><a href='{{ project.github_url }}'><span class="mega-octicon octicon-mark-github"></span></a></small></span>
+        <div class='col-md-2 pull-left'>
+          <img class='media-object' data-source='holder.js/128x128' alt='128x128' src='{{ url_for("static", filename=project.img_url) }}' style='width:128px; height:128px'/>
         </div>
-        <div class='col-md-6' align='right'>
-          {% for tag in project.tags %}
-          <span class="label label-default project-tag" style="display: inline-block;">{{ tag.label }} <a class='glyphicon glyphicon-remove remove-tag' style='display: none' data-toggle="modal" data-target="#removeLabelModal" data-project='{{ project.name }}' data-tag='{{ tag.label }}'></a></span>
-          {% endfor %}
-          <span class="label label-default add-project-tag" style="display: inline-block;" data-toggle="modal" data-target="#newLabelModal" data-project-id='{{ project.id }}'>
-            <a class='tool-tip' data-toggle="tooltip" data-placement="top" title="Add tag to Project">
-              <i class='glyphicon glyphicon-plus'></i>
-            </a>
-          </span>
-        </div>
-      </div>
-      <div class='list-group-item-text'>
-        <p>{{project.description}}</p>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <a href='{{ url_for("project_info", project_id=project.id) }}' id='projectDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
+        <div class='col-md-10'>
+          <div class='row'>
+            <div class='col-md-6'>
+              <span class='h2'>{{ project.name }} <small><a href='{{ project.github_url }}'><span class="mega-octicon octicon-mark-github"></span></a></small></span>
+            </div>
+            <div class='col-md-6' align='right'>
+              {% for tag in project.tags %}
+                <span class="label label-default project-tag" style="display: inline-block;">{{ tag.label }} <a class='glyphicon glyphicon-remove remove-tag' style='display: none' data-toggle="modal" data-target="#removeLabelModal" data-project='{{ project.name }}' data-tag='{{ tag.label }}'></a></span>
+              {% endfor %}
+              <span class="label label-default add-project-tag" style="display: inline-block;" data-toggle="modal" data-target="#newLabelModal" data-project-id='{{ project.id }}'>
+                <a class='tool-tip' data-toggle="tooltip" data-placement="top" title="Add tag to Project">
+                  <i class='glyphicon glyphicon-plus'></i>
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class='list-group-item-text'>
+            <p>{{project.description}}</p>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <a href='{{ url_for("project_info", project_id=project.id) }}' id='projectDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 {% endmacro %}
 
 {% macro comment_row(comment, index) %}
-<div class="media">
-  <div class="media-left media-middle">
-    <a href="#">
-      <img class="media-object" src="..." alt="...">
-    </a>
+  <div class="media">
+    <div class="media-left media-middle">
+      <a href="#">
+        <img class="media-object" src="..." alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">Middle aligned media</h4>
+      ...
+    </div>
   </div>
-  <div class="media-body">
-    <h4 class="media-heading">Middle aligned media</h4>
-    ...
+{% endmacro %}
+
+{% macro pledge_row(pledge, users) %}
+  <div class="media">
+    <div class="media-left media-middle">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{ users.query.filter_by(id=pledge.user_id).first().name }} - {{ pledge.amount }}</h4>
+    </div>
   </div>
-</div>
 {% endmacro %}

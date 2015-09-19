@@ -34,3 +34,9 @@ a.tool-tip i.glyphicon {
     -ms-user-select: none;
     user-select: none;
 }
+
+#bountyLable {
+    background-color: #00ae97;
+    vertical-align: middle;
+    font-size: 80%;
+}

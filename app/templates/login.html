@@ -8,28 +8,165 @@
 
     {% block header %}
       <div class="jumbotron">
-        <img src="{{ url_for('static', filename='LOGO.png') }}" />
+        <a href="{{ url_for('index') }}"> <img src="{{ url_for('static', filename='LOGO.png') }}" /> </a>
         <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>
+      </div>
+
+<!-- Login Form -->
+      {% if login_form %}
         <div class="page-header">
           <h2>Login</h2>
         </div>
-        <div class="row">
-          <div class="col-md-6 form-group">
-            {{ login_form.user_name.label }}
-            {{ login_form.user_name(class_="form-control", style="display: inline-block;") }}
+        <form class="form-horizontal" role="form" id="submitForm" action="" method="POST">
+          {{ login_form.hidden_tag() }}
+          {% for field, errors in login_form.errors.iteritems() %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
+                {{ login_form[field].label }}: {{ ', '.join(errors) }}
+              </div>
+            </div>
+          {% endfor %}
+          {% if g.loginError %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger"><p>{{ g.loginErrorMessage }}</p></div>
+            </div>
+          {% endif %}
+          <div class="form-group">
+            {{ login_form.user_name.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ login_form.user_name(class_="form-control", style="display: inline-block;") }}
+              <div class="col-sm-3">
+                <h6><a href="new-user">Register New User</h6>
+              </div>
+              <div class="col-sm-3">
+                <h6><a href="forgot-username">Forgot Username</a></h6>
+              </div>
+            </div>
           </div>
+          <div class="form-group">
+            {{ login_form.email.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ login_form.email(class_="form-control", style="display: inline-block;") }}
+            </div>
+          </div>
+          {#        TODO: Implement Remember-me function#}
+          {#        <div class="form-group">#}
+          {#          <div class="col-sm-offset-2 col-sm-7">#}
+          {#            <div class="checkbox">#}
+          {#              <label>#}
+          {#                <input type="checkbox"> Remember me#}
+          {#              </label>#}
+          {#            </div>#}
+          {#          </div>#}
+          {#        </div>#}
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              {{ login_form.do_login(type="submit", class_="btn btn-primary btn-lg btn-block") }}
+            </div>
+          </div>
+        </form>
 
-          {{ login_form.do_login(class_="btn btn-primary") }}    
+<!-- New User Registration Form -->
+      {% elif new_user_form  %}
+        <div class="page-header">
+          <h2>New User Registration</h2>
         </div>
-      </div>
+        <form class="form-horizontal" role="form" id="submitForm" action="" method="POST">
+          {{ new_user_form.hidden_tag() }}
+          {% for field, errors in new_user_form.errors.iteritems() %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
+                {{ new_user_form[field].label }}: {{ ', '.join(errors) }}
+              </div>
+            </div>
+          {% endfor %}
+          {% if g.registrationError %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger"><p>{{ g.registrationErrorMessage }}</p></div>
+            </div>
+          {% endif %}
+          <div class="form-group">
+            {{ new_user_form.name.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ new_user_form.name(class_="form-control", style="display: inline-block;") }}
+            </div>
+          </div>
+          <div class="form-group">
+            {{ new_user_form.user_name.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ new_user_form.user_name(class_="form-control", style="display: inline-block;") }}
+            </div>
+          </div>
+          <div class="form-group">
+            {{ new_user_form.email.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ new_user_form.email(class_="form-control", style="display: inline-block;") }}
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              {{ new_user_form.register_user(type="submit", class_="btn btn-primary btn-lg btn-block") }}
+            </div>
+          </div>
+        </form>
+
+        <!-- Forgot Username Form -->
+      {% elif forgot_username_form  %}
+        <div class="page-header">
+          <h2>Find Username</h2>
+        </div>
+        <form class="form-horizontal" role="form" id="submitForm" action="" method="POST">
+          {{ forgot_username_form.hidden_tag() }}
+          {% for field, errors in forgot_username_form.errors.iteritems() %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger">
+                {{ forgot_username_form[field].label }}: {{ ', '.join(errors) }}
+              </div>
+            </div>
+          {% endfor %}
+          {% if g.forgotUsernameError %}
+            <div class="row">
+              <div class="col-sm-offset-2 col-sm-6 alert alert-danger"><p>{{ g.forgotUsernameErrorMessage }}</p></div>
+            </div>
+          {% endif %}
+          <div class="form-group">
+            {{ forgot_username_form.email.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+              {{ forgot_username_form.email(class_="form-control", style="display: inline-block;") }}
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-6">
+              {{ forgot_username_form.find_username(type="submit", class_="btn btn-primary btn-lg btn-block") }}
+            </div>
+          </div>
+        </form>
+
+      <!-- Forgot Username Message -->
+      {% elif g.forgot_username_message != None and g.forgot_username_message == "Found user"  %}
+        <div class="page-header">
+          <h2>Find Username</h2>
+        </div>
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-6 alert alert-success">
+            Email will be sent to you containing your username!
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-6">
+            <a href="login"> <button type="button" class="btn btn-primary btn-lg btn-block"> Back to Login </button> </a>
+          </div>
+        </div>
+
+      {% endif %}
     {% endblock %}
-    
+
     {% block menubar %}{% endblock %}
 
     <div class="tab-content">
       {% block page_content %}{% endblock %}
     </div>
-  
+
   </div>
 
   {% block scripts %}
