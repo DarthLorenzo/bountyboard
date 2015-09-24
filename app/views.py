@@ -7,57 +7,18 @@ import os
 
 bootstrap = Bootstrap(app)
 
-@app.route('/')
-@login_required
-def index():
-    return redirect(url_for('bounties'))
-
-@lm.user_loader
-def load_user(id):
-    return models.User.query.get(int(id))
+@app.before_request
+def before_request():
+    g.user = current_user
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico')
 
-@app.before_request
-def before_request():
-    g.user = current_user
-
-@app.route('/forgot-username', methods=['GET', 'POST'])
-def forgot_username():
-    forgot_username_form = forms.ForgotUsnernameForm()
-
-    if forgot_username_form.validate_on_submit():
-        user = models.User.query.filter_by(email=forgot_username_form.data['email']).first()
-        if user is None:
-            g.forgotUsernameError=True
-            g.forgotUsernameErrorMessage="Email not registered!"
-        else:
-            g.forgot_username_message = "Found user"
-            return render_template('login.html')
-
-    return render_template('login.html', forgot_username_form=forgot_username_form)
-
-@app.route('/new-user', methods=['GET', 'POST'])
-def new_user():
-    new_user_form = forms.NewUserForm()
-
-    if new_user_form.validate_on_submit():
-        check_email = models.User.query.filter_by(email=new_user_form.data['email']).first()
-        check_username = models.User.query.filter_by(username=new_user_form.data['user_name']).first()
-        if check_email is not None or check_username is not None:
-            g.registrationError=True
-            g.registrationErrorMessage="Username/Email already registered!"
-        else:
-            user = models.User(name=new_user_form.data['name'], email=new_user_form.data['email'], username=new_user_form.data['user_name'], budget=1000)
-            db.session.add(user)
-            db.session.commit()
-            g.user = user
-            login_user(user)
-            return redirect(url_for('index'))
-
-    return render_template('login.html', new_user_form=new_user_form)
+@app.route('/')
+@login_required
+def index():
+    return redirect(url_for('bounties'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -89,6 +50,54 @@ def login():
                 g.loginError=True
                 g.loginErrorMessage="Email not associated with given Username"
     return render_template('login.html', login_form=login_form)
+
+@lm.user_loader
+def load_user(id):
+    return models.User.query.get(int(id))
+
+@app.route('/forgot-username', methods=['GET', 'POST'])
+def forgot_username():
+    forgot_username_form = forms.ForgotUsnernameForm()
+
+    if forgot_username_form.validate_on_submit():
+        user = models.User.query.filter_by(email=forgot_username_form.data['email']).first()
+        if user is None:
+            g.forgotUsernameError=True
+            g.forgotUsernameErrorMessage="Email not registered!"
+        else:
+            g.forgot_username_message = "Found user"
+            return render_template('login.html')
+
+    return render_template('login.html', forgot_username_form=forgot_username_form)
+
+@app.route('/new-user', methods=['GET', 'POST'])
+def new_user():
+    new_user_form = forms.NewUserForm()
+
+    if new_user_form.validate_on_submit():
+        check_email = models.User.query.filter_by(email=new_user_form.data['email']).first()
+        check_username = models.User.query.filter_by(username=new_user_form.data['user_name']).first()
+        if check_email is not None or check_username is not None:
+            g.registrationError=True
+            g.registrationErrorMessage="Username/Email already registered!"
+        else:
+            name = new_user_form.data['name'].replace(" ", "")
+            image_url = 'users/%s.png' % name
+            temp_image_url = 'app/static/users/%s.png' % name
+            identicon.save_rendered_identicon(name, 24, temp_image_url)
+
+            user = models.User(name=new_user_form.data['name'],
+                               email=new_user_form.data['email'],
+                               username=new_user_form.data['user_name'],
+                               img_url=image_url,
+                               budget=1000)
+            db.session.add(user)
+            db.session.commit()
+            g.user = user
+            login_user(user)
+            return redirect(url_for('index'))
+
+    return render_template('login.html', new_user_form=new_user_form)
 
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -136,8 +145,7 @@ def bounties():
 @login_required
 def bounty_info(bounty_id):
     bounty = models.Bounty.query.filter_by(id=bounty_id).first()
-    users = models.User
-    return render_template('bounty_info.html', bounty=bounty, users=users)
+    return render_template('bounty_info.html', bounty=bounty)
 
 @app.route('/projects', methods=['GET', 'POST'])
 @login_required

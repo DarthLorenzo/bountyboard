@@ -7,11 +7,6 @@
   <div class="container theme-showcase" role="main">
 
     {% block header %}
-      {% if g.user.is_authenticated() %}
-        <p class="text-right">Logged in as {{ g.user.name }} <a href="logout">(logout)</a></p>
-      {% else %}
-        <p class="text-right"><a href="login">Login</p></a>
-      {% endif %}
       <div class="jumbotron">
         <img src="{{ url_for('static', filename='LOGO.png') }}" />
         <p>Looking for a way to spend your 20% time? Bored on the weekend? Just want to get some YouEarnedIt swag? Check the outstanding requests below!</p>

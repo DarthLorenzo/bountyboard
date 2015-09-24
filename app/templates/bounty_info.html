@@ -48,8 +48,8 @@
         <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newBountyModal">
           Offer a Bounty
         </button>
-        {% for pledge in bounty.pledges %}
-          {{ macros.pledge_row(pledge,users) }}
+        {% for backer in bounty.backers %}
+          {{ macros.pledge_row(backer, bounty) }}
         {% endfor %}
       </div>
     </div>

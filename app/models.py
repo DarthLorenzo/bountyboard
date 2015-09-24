@@ -59,6 +59,7 @@ class Bounty(db.Model):
     updated_at    = db.Column(db.DateTime)
     comments      = db.relationship("Comment")
     pledges       = db.relationship("Pledge")
+    backers       = db.relationship("User", secondary="pledges")
 
     def __repr__(self):
         return '<Bounty %r>' % (self.title)

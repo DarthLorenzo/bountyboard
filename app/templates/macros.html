@@ -87,12 +87,15 @@
   </div>
 {% endmacro %}
 
-{% macro pledge_row(pledge, users) %}
+{% macro pledge_row(backer, bounty) %}
   <div class="media">
     <div class="media-left media-middle">
     </div>
     <div class="media-body">
-      <h4 class="media-heading">{{ users.query.filter_by(id=pledge.user_id).first().name }} - {{ pledge.amount }}</h4>
+      <h4 class="media-heading">
+        <img src='{{ url_for("static", filename=backer.img_url) }}' style='width:25px; height:25px'/>
+        {{ backer.name }} - {{ bounty.pledges|selectattr("user_id", "sameas", backer.id)|sum(attribute="amount") }}
+      </h4>
     </div>
   </div>
 {% endmacro %}
