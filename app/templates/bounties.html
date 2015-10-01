@@ -10,10 +10,16 @@
     <div class="make-row col-md-12" style="padding-left: 0px; padding-right: 0px; margin-top: -2px">
 
       <div class="col-md-9" style="padding-left: 0px">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-          {% for bounty in bounties %}
-          {{ macros.bounty_row(slap_on_bounty_form, bounty, loop.index0) }}
-          {% endfor %}
+        <div class="panel-group" id="bounty-accordion" role="tablist" aria-multiselectable="true">
+
+          {% include "bounty_group.html" with context %}
+
+          <div class='panel panel-default' id="more-bounties">
+            <div class='panel-heading' role="tab" >
+              <a class='h4' href='#more-bounties'>Load more bounties</a>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -21,7 +27,6 @@
         <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 24px" data-toggle="modal" data-target="#newBountyModal">
           Offer a Bounty
         </button>
-        {# wtf.quick_form(sort_bounty_form) #}
 
 
         <span>Sort by:</span>
@@ -30,16 +35,37 @@
           <option value="ascDate">Oldest first</option>
           <option value="descBounty">Biggest bounty first</option>
         </select>
-        <br>
-        <span style="margin-top: 12px">Search by:</span>
-        <div class="row" style="margin-left: 5px; margin-top: 12px; margin-bottom: 12px">
-          <label>Project</label>
-          <input class="input-sm pull-right" type="text">
-        </div>
-        <div class="row" style="margin-left: 5px">
-          <label>Language</label>
-          <input class="input-sm pull-right" type="text">
-        </div>
+        
+
+        <form role="form" id="submitForm", action="{{ url_for('bounties') }}", method="POST">
+          <div class="voffset5">
+            <span style="margin-top: 12px">Projects:</span>
+            {% for project in projects %}
+              <span id="label-{{ project.id }}" class="label label-default unselectable filter-tag filter-project-tag" style="display: inline-block;" data-tag-id="{{ project.id }}">{{ project.name }}</span>
+            {% endfor %}
+          </div>
+          <div class="voffset3">
+            <span style="margin-top: 12px">Tags:</span>
+            {% for tag in tags %}
+              <span id="label-{{ tag.id }}" class="label label-default unselectable filter-tag filter-tag-tag" style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
+            {% endfor %}
+          </div>
+          <div class='row voffset4'>
+            <div class="col-md-12" align="right">
+              <span class="label label-success unselectable example-filter-tag" style="display: inline-block;">Require</span>
+              <span class="label label-warning unselectable example-filter-tag" style="display: inline-block;">Exclude</span>
+
+              {{ filter_bounty_form.hidden_tag() }}
+              {{ filter_bounty_form.require_tags(type="hidden", style="display: none") }}
+              {{ filter_bounty_form.exclude_tags(type="hidden", style="display: none") }}
+              {{ filter_bounty_form.require_tags(type="hidden", style="display: none") }}
+              {{ filter_bounty_form.exclude_tags(type="hidden", style="display: none") }}
+              {{ filter_bounty_form.do_filter(class_="btn btn-primary") }}
+            </div>
+          </div>
+        </form>
+
+        
       </div>
     </div>
   </div>
@@ -112,6 +138,36 @@
       formatter: function(value) {
         return 'Current value: ' + value;
       }
+    });
+
+    $('#more-bounties').on('click', function(e) {
+        var offset = $('#bounty-accordion > .bounty-row').length;
+        var url_base = "{{ url_for("more_bounties", offset=80085) }}";
+        var final_url = url_base.replace("80085", offset);
+
+        $.ajax({
+            dataType: "html",
+            url: final_url,
+            success: function (data) {
+                console.log(data);
+                $('#bounty-accordion').append(data);
+                $( "#more-bounties" ).appendTo( $( "#bounty-accordion" ) );
+            }
+        });
+    });
+
+
+    $('#do_filter').on('click', function (e) {
+        var require = [];
+        var exclude = [];
+
+        $('.filter-tag-tag').each(function (i, obj) {
+            if ($(this).hasClass("label-success")) {
+                require.push($(this).attr('data-tag-id'))
+            } else if ($(this).hasClass("label-warning")) {
+                exclude.push($(this).attr('data-tag-id'))
+            }
+        });
     });
 
     $('.bounty-slider').on("slide", function(evt){

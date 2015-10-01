@@ -1,0 +1,5 @@
+{% import 'macros.html'  as macros %}
+
+{% for bounty in bounties %}
+    {{ macros.bounty_row(slap_on_bounty_form, bounty, loop.index0, offset) }}
+{% endfor %}

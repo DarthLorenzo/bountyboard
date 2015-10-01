@@ -10,7 +10,6 @@
 
   {% block page_content %}{% endblock %}
 
-  </div>
   {% block scripts %}
     {{ super() }}
       <div id="utilitybelt-subnav-content" hidden=true>
@@ -21,7 +20,7 @@
       </div>
       <script type="text/javascript">
         window.utilityBeltOptions = {
-          applabel: 'Bountyboard'{% if g.user.is_authenticated() %},
+          appTitle: 'Bountyboard'{% if g.user.is_authenticated() %},
             fnAfterDraw: function() {
               $(".container-fluid").append($("#utilitybeltSubNav"))
               $("#utilitybeltSubNav").addClass("pull-right")

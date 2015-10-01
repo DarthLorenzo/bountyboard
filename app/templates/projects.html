@@ -27,7 +27,7 @@
           <div class="voffset5">
             <span style="margin-top: 12px">Tags:</span>
             {% for tag in tags %}
-              <span id="label-{{ tag.id }}" class="label label-default unselectable filter-project-tag" style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
+              <span id="label-{{ tag.id }}" class="label label-default unselectable filter-tag filter-tag-tag" style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
             {% endfor %}
           </div>
           <div class='row voffset4'>
@@ -35,10 +35,10 @@
               <span class="label label-success unselectable example-filter-tag" style="display: inline-block;">Require</span>
               <span class="label label-warning unselectable example-filter-tag" style="display: inline-block;">Exclude</span>
 
-              {{ filter_tags_form.hidden_tag() }}
-              {{ filter_tags_form.require_tags(type="hidden", style="display: none") }}
-              {{ filter_tags_form.exclude_tags(type="hidden", style="display: none") }}
-              {{ filter_tags_form.do_filter(class_="btn btn-primary") }}
+              {{ filter_projects_form.hidden_tag() }}
+              {{ filter_projects_form.require_tags(type="hidden", style="display: none") }}
+              {{ filter_projects_form.exclude_tags(type="hidden", style="display: none") }}
+              {{ filter_projects_form.do_filter(class_="btn btn-primary") }}
             </div>
           </div>
         </form>
@@ -161,24 +161,11 @@
       $('#new_tag').val("");
     });
 
-    $('.filter-project-tag').on('click', function (e) {
-      if ($(this).hasClass("label-default")) {
-        $(this).removeClass("label-default")
-        $(this).addClass("label-success")
-      } else if ($(this).hasClass("label-success")) {
-        $(this).removeClass("label-success")
-        $(this).addClass("label-warning")
-      } else {
-        $(this).removeClass("label-warning")
-        $(this).addClass("label-default")
-      }
-    });
-
     $('#do_filter').on('click', function (e) {
       var require = []
       var exclude = []
 
-      $('.filter-project-tag').each(function(i, obj) {
+      $('.filter-tag-tag').each(function(i, obj) {
         if ($(this).hasClass("label-success")) {
           require.push($(this).attr('data-tag-id'))
         } else if ($(this).hasClass("label-warning")) {

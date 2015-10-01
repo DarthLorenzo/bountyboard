@@ -1,4 +1,11 @@
 from app import db
+from enum import Enum 
+
+BOUNTY_STATUS = {
+    'OPEN': 1,
+    'CLOSED': 2,
+    'REVIEW': 3
+}
 
 
 class User(db.Model):
@@ -35,6 +42,7 @@ class Project(db.Model):
     name          = db.Column(db.String(32), unique=True)
     description   = db.Column(db.String(255))
     github_url    = db.Column(db.String(128), unique=True)
+    # deployed_url  = db.Column(db.String(128), unique=True) //TODO
     img_url       = db.Column(db.String(64))
     bounties      = db.relationship("Bounty",
                         backref=db.backref("project"))
@@ -53,8 +61,8 @@ class Bounty(db.Model):
     id            = db.Column(db.Integer, primary_key=True)
     project_id    = db.Column(db.Integer, db.ForeignKey('projects.id'))
     title         = db.Column(db.String(64), unique=True)
-    description   = db.Column(db.String(255))
-    active        = db.Column(db.Boolean)
+    description   = db.Column(db.String(2000))
+    state         = db.Column(db.Integer)
     created_at    = db.Column(db.DateTime)
     updated_at    = db.Column(db.DateTime)
     comments      = db.relationship("Comment")
@@ -116,5 +124,6 @@ class Comment(db.Model):
     id            = db.Column(db.Integer, primary_key=True)
     user_id       = db.Column(db.Integer, db.ForeignKey('users.id'))
     bounty_id     = db.Column(db.Integer, db.ForeignKey('bounties.id'))
-    text          = db.Column(db.String(255))
+    text          = db.Column(db.String(2000))
     created_at    = db.Column(db.DateTime)
+    user          = db.relationship("User")

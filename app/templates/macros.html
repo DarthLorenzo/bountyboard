@@ -1,27 +1,27 @@
-{% macro bounty_row(slap_on_bounty_form,bounty, index) %}
-  <div class='panel panel-default'>
-    <div class='panel-heading' role="tab" id="heading{{index}}">
-      <a class='h4' data-toggle='collapse' data-parent='#accordion' href='#bounty-details-{{index}}' aria-expanded="true" aria-controls="bounty-details-{{index}}">{{bounty.title}}</a>
-      <span id='bountyLable' class='badge'>{{ bounty.pledges|sum(attribute="amount") }}</span>
+{% macro bounty_row(slap_on_bounty_form, bounty, index, offset) %}
+  <div class='panel panel-default bounty-row'>
+    <div class='panel-heading' role="tab" id="heading{{index+offset}}">
+      <a class='h4' data-toggle='collapse' data-parent='#accordion' href='#bounty-details-{{index+offset}}' aria-expanded="true" aria-controls="bounty-details-{{index+offset}}">{{bounty.title}}</a>
+      <span class='badge bountyPledgeLable'>{{ bounty.pledges|sum(attribute="amount") }}</span>
       <div class='col-md-1 pull-right'>
         <a class='pull-right'>
           <img src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -6px; width:32px; height:32px' data-toggle="tooltip" title="{{ bounty.project.name }}"/>
         </a>
       </div>
     </div>
-    <div id='bounty-details-{{index}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index}}">
+    <div id='bounty-details-{{index+offset}}' class='panel-collapse collapse' role="tabpanel" aria-labelledby="heading{{index+offset}}">
       <div class='panel-body'>
         <p>{{bounty.description}}</p>
         <div class='row col-md-12'>
           <div class='col-sm-3'>
-            <a id='addBounty' class='btn btn-info' data-toggle="collapse" data-target="#add-pledge-{{index}}">Add to the Bounty</a>
+            <a id='addBounty' class='btn btn-info' data-toggle="collapse" data-target="#add-pledge-{{index+offset}}">Add to the Bounty</a>
           </div>
           <form role="form" id="submitForm" action="{{ url_for('slap_it_on') }}" method="POST">
-            <div id='add-pledge-{{index}}' class='row col-sm-7 collapse'>
+            <div id='add-pledge-{{index+offset}}' class='row col-sm-7 collapse'>
               <div class="col-sm-9 bounty-input">
-                <input name="bounty_addition" id="bountyOffered-{{index}}" class="bounty-slider" data-slider-id='bountyOffered-{{index}}' data-label-id='bountyValue-{{index}}' type="text" data-slider-min="0" data-slider-max={{ g.user.budget }} data-slider-step="10" data-slider-value="100"/>
+                <input name="bounty_addition" id="bountyOffered-{{index+offset}}" class="bounty-slider" data-slider-id='bountyOffered-{{index+offset}}' data-label-id='bountyValue-{{index+offset}}' type="text" data-slider-min="0" data-slider-max={{ g.user.budget }} data-slider-step="10" data-slider-value="100"/>
                 <input type="hidden" name="bounty_id" id="bounty_id" value="{{ bounty.id }}"/>
-                <label for='bountyOffered-{{index}}' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue-{{index}}'>100</span></label>
+                <label for='bountyOffered-{{index+offset}}' style='margin-bottom: 0px'>Bounty Offered: <span id='bountyValue-{{index+offset}}'>100</span></label>
               </div>
               <div class="col-sm-3">
                 {{ slap_on_bounty_form.slap_on_bounty(class='btn btn-primary pull-right', style="display: inline-block;") }}
@@ -29,7 +29,7 @@
             </div>
           </form>
 
-          <a href='{{ url_for("bounty_info", bounty_id=bounty.id) }}' id='bountyDetails-{{index}}' class='btn btn-primary pull-right'>More Details</a>
+          <a href='{{ url_for("bounty_info", bounty_id=bounty.id) }}' id='bountyDetails-{{index+offset}}' class='btn btn-primary pull-right'>More Details</a>
         </div>
       </div>
     </div>
@@ -73,16 +73,16 @@
   </div>
 {% endmacro %}
 
-{% macro comment_row(comment, index) %}
-  <div class="media">
-    <div class="media-left media-middle">
-      <a href="#">
-        <img class="media-object" src="..." alt="...">
+{% macro comment_row(comment) %}
+  <div class="media voffset2">
+    <div class="media-left">
+      <a>
+        <img class="media-object" src='{{ url_for("static", filename=comment.user.img_url) }}' style='width:50px; height:50px'>
       </a>
     </div>
-    <div class="media-body">
-      <h4 class="media-heading">Middle aligned media</h4>
-      ...
+    <div class="media-body panel panel-default">
+      <div class="panel-heading"><strong>{{ comment.user.name }}</strong></div>
+      <div class="panel-body">{{ comment.text }}</div>
     </div>
   </div>
 {% endmacro %}
@@ -98,4 +98,16 @@
       </h4>
     </div>
   </div>
+{% endmacro %}
+
+{% macro bounty_status_type(bounty, bounty_statuses) %}
+  {% if bounty.state is sameas bounty_statuses['OPEN'] %}
+    <span class='label label-success'>Unclaimed</span>
+  {% elif bounty.state is sameas bounty_statuses['CLOSED'] %}
+    <span class='label label-default'>Claimed</span>
+  {% elif bounty.ststateatus is sameas bounty_statuses['REVIEW'] %}
+    <span class='label label-primary'>Under Review</span>
+  {% else %}
+    <span class='label label-danger'>Error</span>
+  {% endif %}
 {% endmacro %}

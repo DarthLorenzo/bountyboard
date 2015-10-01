@@ -37,6 +37,21 @@
 
   {% block scripts %}
     {{ super() }}
+
+    <script type="text/javascript">
+    $('.filter-tag').on('click', function (e) {
+      if ($(this).hasClass("label-default")) {
+        $(this).removeClass("label-default")
+        $(this).addClass("label-success")
+      } else if ($(this).hasClass("label-success")) {
+        $(this).removeClass("label-success")
+        $(this).addClass("label-warning")
+      } else {
+        $(this).removeClass("label-warning")
+        $(this).addClass("label-default")
+      }
+    });
+    </script>
   {% endblock %}
 
 {% endblock %}
