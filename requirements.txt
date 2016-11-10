@@ -1,4 +1,4 @@
-ecorator==3.4.2
+decorator==3.4.2
 enum34==1.0.4
 Flask==0.10.1
 Flask-Bootstrap==3.3.4.1

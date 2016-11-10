@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # REMOTE DEV URI
 # SQLALCHEMY_DATABASE_URI = 'mysql://bounty:bvsupersecure@127.0.0.1:3306/bountyboard'
 # BV FLYNN URI
-SQLALCHEMY_DATABASE_URI = 'mysql://bounty:bvsupersecure@bountyboarddb.c182wh98aqxb.us-east-1.rds.amazonaws.com:3306/bountyboard'
+SQLALCHEMY_DATABASE_URI = 'mysql://bounty:bvsupersecure@bountyboard.c182wh98aqxb.us-east-1.rds.amazonaws.com:3306/bountyboard'
 
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 

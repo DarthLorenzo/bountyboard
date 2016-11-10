@@ -162,7 +162,7 @@ def bounties():
 
     if filter_bounty_form.validate_on_submit():
 
-        bounties = models.Project.query.filter(models.Project.tags.any(models.Tag.id.in_(filter_projects_form.data['require_tags'])))
+        bounties = models.Project.query.filter(models.Project.tags.any(models.Tag.id.in_(filter_bounty_form.data['require_tags'])))
 
 
     return render_template('bounties.html', bounties=bounties,
