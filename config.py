@@ -1,8 +1,13 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-# SQLALCHEMY_DATABASE_URI = 'mysql:///BountyBoard:BountyBoard@127.0.0.1:3333/BountyBoard'
+# LOCAL DEV URI
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+# REMOTE DEV URI
+# SQLALCHEMY_DATABASE_URI = 'mysql://bounty:bvsupersecure@127.0.0.1:3306/bountyboard'
+# BV FLYNN URI
+SQLALCHEMY_DATABASE_URI = 'mysql://bounty:bvsupersecure@bountyboarddb.c182wh98aqxb.us-east-1.rds.amazonaws.com:3306/bountyboard'
+
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 WTF_CSRF_ENABLED = True
