@@ -1,5 +1,6 @@
 from app import db
-from enum import Enum 
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import select, func
 
 BOUNTY_STATUS = {
     'OPEN': 1,
@@ -63,11 +64,19 @@ class Bounty(db.Model):
     title         = db.Column(db.String(64), unique=True)
     description   = db.Column(db.String(2000))
     state         = db.Column(db.Integer)
-    created_at    = db.Column(db.DateTime)
-    updated_at    = db.Column(db.DateTime)
+    created_at    = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at    = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
     comments      = db.relationship("Comment")
     pledges       = db.relationship("Pledge")
     backers       = db.relationship("User", secondary="pledges")
+
+    @hybrid_property
+    def pledge_sum(self):
+        return sum(map(lambda x: x.amount, self.pledges))
+
+    @pledge_sum.expression
+    def pledge_sum(cls):
+        return select([func.sum(-1 * Pledge.amount)]).where(Pledge.bounty_id == cls.id)
 
     def __repr__(self):
         return '<Bounty %r>' % (self.title)
@@ -89,7 +98,7 @@ class Tag_Link(db.Model):
     tag_id    	  = db.Column(db.Integer, db.ForeignKey('tags.id'))
 
     def __repr__(self):
-        return '<Tag_Link %r -> %r>' % (self.tag_id, project_id)
+        return '<Tag_Link %r -> %r>' % (self.tag_id, self.project_id)
 
 
 class Follow(db.Model):
@@ -125,5 +134,5 @@ class Comment(db.Model):
     user_id       = db.Column(db.Integer, db.ForeignKey('users.id'))
     bounty_id     = db.Column(db.Integer, db.ForeignKey('bounties.id'))
     text          = db.Column(db.String(2000))
-    created_at    = db.Column(db.DateTime)
+    created_at    = db.Column(db.DateTime, server_default=db.func.now())
     user          = db.relationship("User")

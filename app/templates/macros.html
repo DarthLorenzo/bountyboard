@@ -2,7 +2,7 @@
   <div class='panel panel-default bounty-row'>
     <div class='panel-heading' role="tab" id="heading{{index+offset}}">
       <a class='h4' data-toggle='collapse' data-parent='#accordion' href='#bounty-details-{{index+offset}}' aria-expanded="true" aria-controls="bounty-details-{{index+offset}}">{{bounty.title}}</a>
-      <span class='badge bountyPledgeLable'>{{ bounty.pledges|sum(attribute="amount") }}</span>
+      <span class='badge bountyPledgeLable'>{{ bounty.pledge_sum }}</span>
       <div class='col-md-1 pull-right'>
         <a class='pull-right'>
           <img src='{{ url_for("static", filename=bounty.project.img_url) }}' style='margin-top: -6px; width:32px; height:32px' data-toggle="tooltip" title="{{ bounty.project.name }}"/>

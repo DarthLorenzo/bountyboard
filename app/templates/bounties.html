@@ -15,7 +15,7 @@
           {% include "bounty_group.html" with context %}
 
           <div class='panel panel-default' id="more-bounties">
-            <div class='panel-heading' role="tab" >
+            <div class='panel-heading' role="tab">
               <a class='h4' href='#more-bounties'>Load more bounties</a>
             </div>
           </div>
@@ -28,32 +28,41 @@
           Offer a Bounty
         </button>
 
+        <form role="form" id="submitForm">
+          <div class="row">
+            <div class="form-group col-sm-16">
+              {{ sort_bounty_form.sort_by.label }}
+              {{ sort_bounty_form.sort_by(class_="form-control") }}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Sort">
+          </div>
+        </form>
 
-        <span>Sort by:</span>
-        <select class="form-control" id="sort" onchange="sort();">
-          <option value="descDate">Newest first</option>
-          <option value="ascDate">Oldest first</option>
-          <option value="descBounty">Biggest bounty first</option>
-        </select>
-        
 
-        <form role="form" id="submitForm", action="{{ url_for('bounties') }}", method="POST">
+        <form role="form" id="submitForm" action="{{ url_for('bounties') }}" method="POST">
           <div class="voffset5">
             <span style="margin-top: 12px">Projects:</span>
             {% for project in projects %}
-              <span id="label-{{ project.id }}" class="label label-default unselectable filter-tag filter-project-tag" style="display: inline-block;" data-tag-id="{{ project.id }}">{{ project.name }}</span>
+              <span id="label-{{ project.id }}"
+                    class="label label-default unselectable filter-tag filter-project-tag"
+                    style="display: inline-block;"
+                    data-tag-id="{{ project.id }}">{{ project.name }}</span>
             {% endfor %}
           </div>
           <div class="voffset3">
             <span style="margin-top: 12px">Tags:</span>
             {% for tag in tags %}
-              <span id="label-{{ tag.id }}" class="label label-default unselectable filter-tag filter-tag-tag" style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
+              <span id="label-{{ tag.id }}"
+                    class="label label-default unselectable filter-tag filter-tag-tag"
+                    style="display: inline-block;" data-tag-id="{{ tag.id }}">{{ tag.label }}</span>
             {% endfor %}
           </div>
           <div class='row voffset4'>
             <div class="col-md-12" align="right">
-              <span class="label label-success unselectable example-filter-tag" style="display: inline-block;">Require</span>
-              <span class="label label-warning unselectable example-filter-tag" style="display: inline-block;">Exclude</span>
+                            <span class="label label-success unselectable example-filter-tag"
+                                  style="display: inline-block;">Require</span>
+              <span class="label label-warning unselectable example-filter-tag"
+                    style="display: inline-block;">Exclude</span>
 
               {{ filter_bounty_form.hidden_tag() }}
               {{ filter_bounty_form.require_tags(type="hidden", style="display: none") }}
@@ -65,17 +74,19 @@
           </div>
         </form>
 
-        
+
       </div>
     </div>
   </div>
 
   <!-- New Bounty Modal -->
-  <div class="modal fade" id="newBountyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="newBountyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
           <h2 class="modal-title" id="myModalLabel">New Bounty</h2>
         </div>
         <form role="form" id="submitForm" action="{{ url_for('bounties') }}" method="POST">
@@ -84,9 +95,9 @@
             {{ new_bounty_form.hidden_tag() }}
 
             {% for field, errors in new_bounty_form.errors.iteritems() %}
-            <div class="alert alert-danger">
-              {{ new_bounty_form[field].label }}: {{ ', '.join(errors) }}
-            </div>
+              <div class="alert alert-danger">
+                {{ new_bounty_form[field].label }}: {{ ', '.join(errors) }}
+              </div>
             {% endfor %}
 
             <div class="form-group">
@@ -99,8 +110,13 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 pull-left bounty-input">
-                <input id="bountyOffered-initial" name="bounty_amount" class="bounty-slider" data-label-id="bountyValue-initial" data-slider-id='bountyOffered-initial' type="text" data-slider-min="0" data-slider-max={{ g.user.budget }} data-slider-step="10" data-slider-value="100"/>
-                <label for="bountyOffered-initial">Bounty Offered: <span id="bountyValue-initial">100</span></label>
+                <input id="bountyOffered-initial" name="bounty_amount" class="bounty-slider"
+                       data-label-id="bountyValue-initial" data-slider-id='bountyOffered-initial'
+                       type="text" data-slider-min="0"
+                       data-slider-max={{ g.user.budget }} data-slider-step="10"
+                       data-slider-value="100"/>
+                <label for="bountyOffered-initial">Bounty Offered: <span
+                        id="bountyValue-initial">100</span></label>
               </div>
               <div class="form-group col-sm-6">
                 {{ new_bounty_form.project.label }}
@@ -121,69 +137,68 @@
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
+  {{ super() }}
 
-<script type="text/javascript">
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
 
-  var formErrors = {% if new_bounty_form.errors %}true{% else %}false{% endif %};
+    var formErrors = {% if new_bounty_form.errors %}true{% else %}false{% endif %};
 
-  $(document).ready(function() {
+    $(document).ready(function () {
 
-    $("#bounty-tab").addClass("active");
+      $("#bounty-tab").addClass("active");
 
-    $('.bounty-slider').slider({
-      formatter: function(value) {
-        return 'Current value: ' + value;
-      }
-    });
+      $('.bounty-slider').slider({
+        formatter: function (value) {
+          return 'Current value: ' + value;
+        }
+      });
 
-    $('#more-bounties').on('click', function(e) {
+      $('.bounty-slider').on("slide", function (evt) {
+        $("#" + this.getAttribute("data-label-id")).text(evt.value)
+      });
+
+      $('#more-bounties').on('click', function (e) {
         var offset = $('#bounty-accordion > .bounty-row').length;
-        var url_base = "{{ url_for("more_bounties", offset=80085) }}";
+        var url_base = "{{ url_for("more_bounties", offset=80085, sort_by=request.args.get('sort_by')) }}";
         var final_url = url_base.replace("80085", offset);
 
         $.ajax({
-            dataType: "html",
-            url: final_url,
-            success: function (data) {
-                console.log(data);
-                $('#bounty-accordion').append(data);
-                $( "#more-bounties" ).appendTo( $( "#bounty-accordion" ) );
-            }
+          dataType: "html",
+          url: final_url,
+          success: function (data) {
+            console.log(data);
+            $('#bounty-accordion').append(data);
+            $("#more-bounties").appendTo($("#bounty-accordion"));
+          }
         });
-    });
+      });
 
 
-    $('#do_filter').on('click', function (e) {
+      $('#do_filter').on('click', function (e) {
         var require = [];
         var exclude = [];
 
         $('.filter-tag-tag').each(function (i, obj) {
-            if ($(this).hasClass("label-success")) {
-                require.push($(this).attr('data-tag-id'))
-            } else if ($(this).hasClass("label-warning")) {
-                exclude.push($(this).attr('data-tag-id'))
-            }
+          if ($(this).hasClass("label-success")) {
+            require.push($(this).attr('data-tag-id'))
+          } else if ($(this).hasClass("label-warning")) {
+            exclude.push($(this).attr('data-tag-id'))
+          }
         });
+      });
+
+      $('.bounty-input').on("click", function (evt) {
+        var inputElem = this.getElementsByClassName('bounty-slider')[0]
+        $("#" + inputElem.getAttribute('data-label-id')).text(inputElem.getAttribute('value'))
+
+      });
+
+      if (formErrors) {
+        $('.modal').modal('show');
+      }
     });
-
-    $('.bounty-slider').on("slide", function(evt){
-      $("#"+this.getAttribute("data-label-id")).text(evt.value)
-
-    });
-
-    $('.bounty-input').on("click", function(evt){
-      var inputElem = this.getElementsByClassName('bounty-slider')[0]
-      $("#"+inputElem.getAttribute('data-label-id')).text(inputElem.getAttribute('value'))
-
-    });
-
-    if (formErrors) {
-      $('.modal').modal('show');
-    }
-  });
-</script>
+  </script>
 {% endblock %}

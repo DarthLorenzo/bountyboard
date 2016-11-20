@@ -20,12 +20,13 @@
       </div>
       <script type="text/javascript">
         window.utilityBeltOptions = {
+          overrideRootUrl: '{{ url_for("index") }}',
           appTitle: 'Bountyboard'{% if g.user.is_authenticated() %},
-            fnAfterDraw: function() {
-              $(".container-fluid").append($("#utilitybeltSubNav"))
-              $("#utilitybeltSubNav").addClass("pull-right")
-              $("#utilitybeltSubNav").html($('#utilitybelt-subnav-content').html());
-            }
+          fnAfterDraw: function() {
+            $(".container-fluid").append($("#utilitybeltSubNav"))
+            $("#utilitybeltSubNav").addClass("pull-right")
+            $("#utilitybeltSubNav").html($('#utilitybelt-subnav-content').html());
+          }
           {% endif %}
         };
       </script>

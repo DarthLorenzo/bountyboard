@@ -5,6 +5,8 @@ from app import app, db, models, forms, lm
 import identicon
 import os
 
+from app import controller
+
 bootstrap = Bootstrap(app)
 
 
@@ -15,7 +17,7 @@ def before_request():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 
 @app.route('/')
@@ -126,26 +128,10 @@ def slap_it_on():
 @app.route('/bounties', methods=['GET', 'POST'])
 @login_required
 def bounties():
-    bounties = models.Bounty.query.offset(0).limit(10).all()
-    projects = models.Project.query.all()
-    tags     = models.Tag.query.all()
-
     user = g.user
 
     new_bounty_form = forms.NewBountyForm()
-    sort_bounty_form = forms.SortBountyForm()
-    slap_on_bounty_form = forms.SlapOnBountyForm()
-
-    new_bounty_form.project.choices = [(p.id, p.name) for p in projects]
-    sort_bounty_form.project_filter.choices = [(p.id, p.name) for p in projects]
-
-    filter_bounty_form = forms.FilterBountiesForm()
-    filter_bounty_form.require_tags.choices = [(t.id, t.label) for t in tags]
-    filter_bounty_form.exclude_tags.choices = [(t.id, t.label) for t in tags]
-    filter_bounty_form.require_projects.choices = [(p.id, p.name) for p in projects]
-    filter_bounty_form.exclude_projects.choices = [(p.id, p.name) for p in projects]
-
-    if new_bounty_form.validate_on_submit():
+    if new_bounty_form.submit_bounty.data and new_bounty_form.validate_on_submit():
         new_bounty = models.Bounty(project_id=new_bounty_form.data['project'],
                                    title=new_bounty_form.data['title'],
                                    description=new_bounty_form.data['description'],
@@ -160,10 +146,27 @@ def bounties():
         db.session.commit()
         return redirect(url_for('bounties'))
 
-    if filter_bounty_form.validate_on_submit():
+    bounties = controller.get_bounties(sort_option=request.args.get('sort_by'))
 
+    projects = models.Project.query.all()
+    tags     = models.Tag.query.all()
+
+    sort_bounty_form = forms.SortBountyForm()
+    slap_on_bounty_form = forms.SlapOnBountyForm()
+
+    new_bounty_form.project.choices = [(p.id, p.name) for p in projects]
+
+    filter_bounty_form = forms.FilterBountiesForm()
+    filter_bounty_form.require_tags.choices = [(t.id, t.label) for t in tags]
+    filter_bounty_form.exclude_tags.choices = [(t.id, t.label) for t in tags]
+    filter_bounty_form.require_projects.choices = [(p.id, p.name) for p in projects]
+    filter_bounty_form.exclude_projects.choices = [(p.id, p.name) for p in projects]
+    filter_bounty_form.project_filter.choices = [(p.id, p.name) for p in projects]
+
+
+
+    if filter_bounty_form.do_filter.data and filter_bounty_form.validate_on_submit():
         bounties = models.Project.query.filter(models.Project.tags.any(models.Tag.id.in_(filter_bounty_form.data['require_tags'])))
-
 
     return render_template('bounties.html', bounties=bounties,
                                             projects=projects,
@@ -179,7 +182,7 @@ def bounties():
 @app.route('/more_bounties/<int:offset>', methods=['GET'])
 @login_required
 def more_bounties(offset):
-    bounties = models.Bounty.query.offset(offset).limit(10).all()
+    bounties = controller.get_bounties(offset=offset, sort_option=request.args.get('sort_by'))
 
     slap_on_bounty_form = forms.SlapOnBountyForm()
 
